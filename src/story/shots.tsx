@@ -3,8 +3,9 @@ import * as P from './parts';
 import * as Q from './parts2';
 import * as R from './parts3';
 import * as T from './parts4';
+import * as U from './parts5';
 
-/* Shots of parts 1–10 (lines 001–145). Each shot starts on its line; part 11 is a placeholder until those scenes exist. */
+/* Shots of all 11 parts (lines 001–161). Each shot starts on its line; the last shot holds the final question. */
 export const SHOTS: ShotDef[] = [
 	{at: '001', C: P.S001},
 	{at: '002', C: P.S002},
@@ -150,5 +151,20 @@ export const SHOTS: ShotDef[] = [
 	{at: '143', C: T.S143, whip: true,},
 	{at: '144', C: T.S144,},
 	{at: '145', C: T.S145,},
-	{at: '146', C: P.Pending, own: true},
+	{at: '146', C: U.S146, own: true, whip: true,},
+	{at: '147', C: U.S147, own: true,},
+	{at: '148', C: U.S148, own: true,},
+	{at: '149', C: U.S149, own: true,},
+	{at: '150', C: U.S150, whip: true,},
+	{at: '151', C: U.S151, whip: true,},
+	{at: '152', C: U.S152,},
+	{at: '153', C: U.S153,},
+	{at: '154', C: U.S154,},
+	{at: '155', C: U.S155, own: true, whip: true,},
+	{at: '156', C: U.S156,},
+	{at: '157', C: U.S157, whip: true,},
+	{at: '158', C: U.S158,},
+	{at: '159', C: U.S159,},
+	{at: '160', C: U.S160, whip: true,},
+	{at: '161', C: U.S161, whip: true,},
 ];
