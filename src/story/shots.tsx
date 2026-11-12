@@ -1,8 +1,9 @@
 import type {ShotDef} from '../kit/coverage';
 import * as P from './parts';
 import * as Q from './parts2';
+import * as R from './parts3';
 
-/* Shots of parts 1–6 (lines 001–083). Each shot starts on its line; part 7 onward is a placeholder until those scenes exist. */
+/* Shots of parts 1–8 (lines 001–111). Each shot starts on its line; part 9 onward is a placeholder until those scenes exist. */
 export const SHOTS: ShotDef[] = [
 	{at: '001', C: P.S001},
 	{at: '002', C: P.S002},
@@ -86,5 +87,33 @@ export const SHOTS: ShotDef[] = [
 	{at: '081', C: Q.S081},
 	{at: '082', C: Q.S082, own: true},
 	{at: '083', C: Q.S083},
-	{at: '084', C: P.Pending, own: true},
+	{at: '084', C: R.S084, own: true},
+	{at: '085', C: R.S085, own: true},
+	{at: '086', C: R.S086, whip: true},
+	{at: '087', C: R.S087},
+	{at: '088', C: R.S088},
+	{at: '089', C: R.S089, whip: true},
+	{at: '090', C: R.S090, whip: true},
+	{at: '091', C: R.S091, own: true},
+	{at: '092', C: R.S092, whip: true},
+	{at: '093', C: R.S093},
+	{at: '094', C: R.S094},
+	{at: '095', C: R.S095, whip: true},
+	{at: '096', C: R.S096, own: true, whip: true},
+	{at: '097', C: R.S097, whip: true},
+	{at: '098', C: R.S098, whip: true},
+	{at: '099', C: R.S099, own: true, whip: true},
+	{at: '100', C: R.S100, whip: true},
+	{at: '101', C: R.S101},
+	{at: '102', C: R.S102},
+	{at: '103', C: R.S103},
+	{at: '104', C: R.S104},
+	{at: '105', C: R.S105, whip: true},
+	{at: '106', C: R.S106},
+	{at: '107', C: R.S107},
+	{at: '108', C: R.S108},
+	{at: '109', C: R.S109},
+	{at: '110', C: R.S110, whip: true},
+	{at: '111', C: R.S111},
+	{at: '112', C: P.Pending, own: true},
 ];

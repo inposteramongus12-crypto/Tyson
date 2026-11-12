@@ -74,7 +74,7 @@ export const Crack: React.FC<{x: number; y: number; len: number; ang?: number; n
 	);
 };
 
-export const Hero: React.FC<{bob?: number; hideLegs?: boolean; big?: boolean; x: number; s?: number; facing?: 1 | -1; fist?: Knuckles; pose?: Pose; expr?: any; uid: string; floor?: number; seat?: number; mouth?: any; look?: [number, number]; faceTurn?: number; handItem?: React.ReactNode; armOver?: boolean}> = ({x, s = HS, facing = 1, fist = 'skin', big = false, uid, floor = FL, ...rest}) => (
+export const Hero: React.FC<{blink?: number; bob?: number; hideLegs?: boolean; big?: boolean; x: number; s?: number; facing?: 1 | -1; fist?: Knuckles; pose?: Pose; expr?: any; uid: string; floor?: number; seat?: number; mouth?: any; look?: [number, number]; faceTurn?: number; handItem?: React.ReactNode; armOver?: boolean}> = ({x, s = HS, facing = 1, fist = 'skin', big = false, uid, floor = FL, ...rest}) => (
 	<Actor who="hero" x={x} floor={floor} s={s} facing={facing} fist={big ? fist : undefined} fistK={big ? FK : undefined} uid={uid} faceTurn={0.3} {...rest} />
 );
 /* hand of the hero on a world point */
@@ -1183,7 +1183,7 @@ export const S039: React.FC = () => {
 
 export const Pending: React.FC = () => (
 	<AbsoluteFill style={{background: '#131736', alignItems: 'center', justifyContent: 'center'}}>
-		<div style={{fontFamily: FONT, fontWeight: 900, fontSize: 90, color: GOLD}}>Части 7–11: сцены впереди</div>
+		<div style={{fontFamily: FONT, fontWeight: 900, fontSize: 90, color: GOLD}}>Части 9–11: сцены впереди</div>
 	</AbsoluteFill>
 );
 

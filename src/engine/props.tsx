@@ -71,10 +71,11 @@ export const Pigeon: React.FC<{x: number; y: number; s?: number; facing?: 1 | -1
 );
 
 /* Chick (a young pigeon): a separate item. (x, y) = feet. Sparse pale down, big beak, bare pink skin. */
-export const Chick: React.FC<{x: number; y: number; s?: number; facing?: 1 | -1; flap?: number}> = ({x, y, s = 1, facing = 1, flap = 0}) => (
+export const Chick: React.FC<{x: number; y: number; s?: number; facing?: 1 | -1; flap?: number; band?: boolean}> = ({x, y, s = 1, facing = 1, flap = 0, band}) => (
 	<g transform={`translate(${x},${y}) scale(${s * facing},${s})`}>
 		<line x1={-4} y1={-8} x2={-5} y2={0} stroke="#f0a8a0" strokeWidth={3} strokeLinecap="round" />
 		<line x1={5} y1={-8} x2={6} y2={0} stroke="#f0a8a0" strokeWidth={3} strokeLinecap="round" />
+		{band ? <rect x={3} y={-6} width={6} height={5} rx={1.5} fill="#17b3c4" stroke="#0b6a74" strokeWidth={1} /> : null}
 		<ellipse cx={0} cy={-20} rx={18} ry={15} fill="#d8c27c" stroke="#7a6a3c" strokeWidth={2} />
 		<path d="M-16,-26 Q-2,-30 12,-16" fill="none" stroke="#f0a8a0" strokeWidth={4} strokeLinecap="round" />
 		<g stroke="#b59e5a" strokeWidth={2} strokeLinecap="round">

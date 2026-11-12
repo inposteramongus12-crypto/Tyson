@@ -22,10 +22,10 @@ const Cap: React.FC<{x: number; y: number; s?: number; rot?: number}> = ({x, y, 
 		<circle cx={0} cy={-36} r={5} fill="#4a1414" />
 	</g>
 );
-const Egg: React.FC<{x: number; y: number; s?: number; rot?: number}> = ({x, y, s = 1, rot = 0}) => (
+export const Egg: React.FC<{x: number; y: number; s?: number; rot?: number}> = ({x, y, s = 1, rot = 0}) => (
 	<ellipse cx={x} cy={y} rx={24 * s} ry={31 * s} fill="#fbf3dc" stroke="#d9c89a" strokeWidth={3} transform={`rotate(${rot} ${x} ${y})`} />
 );
-const Splat: React.FC<{x: number; y: number; k: number}> = ({x, y, k}) => (
+export const Splat: React.FC<{x: number; y: number; k: number}> = ({x, y, k}) => (
 	<g opacity={k > 0 ? 1 : 0}>
 		<ellipse cx={x} cy={y} rx={70 * k} ry={26 * k} fill="#f2c94a" />
 		<ellipse cx={x} cy={y - 6} rx={44 * k} ry={14 * k} fill="#fff4d0" />
@@ -140,7 +140,7 @@ export const S041: React.FC = () => {
 	);
 };
 
-const CardBG: React.FC<{t: number; push?: number; children?: React.ReactNode; html?: React.ReactNode}> = ({t, push = 0.3, children, html}) => {
+export const CardBG: React.FC<{t: number; push?: number; children?: React.ReactNode; html?: React.ReactNode}> = ({t, push = 0.3, children, html}) => {
 	const u = interpolate(t, [0, 200], [0, 1], {...clamp, easing: ease});
 	return (
 		<AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 40%, #2c3566 0%, #131736 75%)'}}>
@@ -609,8 +609,6 @@ const Dk: React.FC<{f: number}> = ({f}) => (
 		<rect x={1680} y={0} width={240} height={900} fill="#8c2a3a" />
 		{Array.from({length: 6}).map((_, i) => <line key={i} x1={40 * i + 20} y1={0} x2={40 * i + 20} y2={900} stroke="#6a1f2c" strokeWidth={6} />)}
 		{Array.from({length: 6}).map((_, i) => <line key={i} x1={1700 + 40 * i + 20} y1={0} x2={1700 + 40 * i + 20} y2={900} stroke="#6a1f2c" strokeWidth={6} />)}
-		<rect x={560} y={250} width={800} height={110} rx={10} fill="#2a2036" stroke="#c9a640" strokeWidth={6} />
-		<text x={960} y={328} textAnchor="middle" fontFamily={FONT} fontWeight={900} fontSize={66} fill="#c9a640">ДОМ КУЛЬТУРЫ</text>
 		<Floor y={900} c="#7a5a4a" plank />
 		{[0, 1, 2].map((i) => <line key={i} x1={420} y1={560 + i * 90} x2={1500} y2={560 + i * 90} stroke={['#d94a3a', '#f2f2f2', '#2f6fd8'][i]} strokeWidth={12} />)}
 		<rect x={410} y={520} width={24} height={380} fill="#47506a" />
@@ -626,11 +624,11 @@ export const S062: React.FC = () => {
 	const neck = Math.sin(t / 5) * 10;
 	return (
 		<Scene from={camOn(960, 640, 1.0)} to={camOn(1010, 630, 1.3)}
-			ov={<svg viewBox="0 0 1920 1080" width={1920} height={1080} style={{position: 'absolute'}}>
+			ov={<>{t < 90 ? <Plate x={960} y={70} w={900} h={120} text="ДОМ КУЛЬТУРЫ" size={70} t={t} c="#c9a640" /> : null}<svg viewBox="0 0 1920 1080" width={1920} height={1080} style={{position: 'absolute'}}>
 				<Bubble x={1330} y={250} w={760} h={150} t={t - 120} tail={[-90, 130]}>
 					<text x={0} y={22} textAnchor="middle" fontFamily={FONT} fontWeight={900} fontSize={70} fill="#14162a">Мальчик, ты чей?</text>
 				</Bubble>
-			</svg>}>
+			</svg></>}>
 			<Layer depth={1.3}>
 				<Dk f={f} />
 			</Layer>
@@ -651,7 +649,7 @@ export const S063: React.FC = () => {
 	const roar = kk(t, 150, 180);
 	const count = Math.min(9, Math.floor(Math.max(0, t - 90) / 12));
 	return (
-		<Scene from={camOn(960, 640, 1.0)} to={camOn(960, 640, 1.2)} ov={<Plate x={960} y={60} w={420} h={130} text="1:00" size={96} t={t - 100} />}>
+		<Scene from={camOn(960, 640, 1.0)} to={camOn(960, 640, 1.2)} ov={<Plate x={330} y={70} w={420} h={130} text="1:00" size={96} t={t - 100} />}>
 			<Layer depth={1.3}>
 				<Dk f={f} />
 			</Layer>
@@ -667,7 +665,7 @@ export const S063: React.FC = () => {
 							<Actor who="svita1" sp="X" x={x} floor={FL + 60} s={0.8} facing={i < 2 ? 1 : -1} uid={'cr' + i} color={['#7a8794', '#a39b8a', '#8a9ba3', '#b5a98c'][i]} hair="short" acc={[]} outfit="tee" pose={{...idle(f, i), armF: [150, 20], armB: [-150, 20]}} shadow={false} />
 						</g>
 					))}
-					{count > 0 ? <text x={1330} y={380} textAnchor="middle" fontFamily={FONT} fontWeight={900} fontSize={120} fill={GOLD} stroke={PLATE} strokeWidth={8} paintOrder="stroke">{count}</text> : null}
+					{count > 0 ? <text x={1500} y={620} textAnchor="middle" fontFamily={FONT} fontWeight={900} fontSize={120} fill={GOLD} stroke={PLATE} strokeWidth={8} paintOrder="stroke">{count}</text> : null}
 				</Svg>
 			</Layer>
 		</Scene>
@@ -874,17 +872,17 @@ export const S071: React.FC = () => {
 export const S072: React.FC = () => {
 	const {f, at} = useShot();
 	const t = f - at('072');
-	const x = lerp(300, 1500, kk(t, 0, 120));
+	const x = lerp(300, 1200, kk(t, 0, 120));
 	const ph = t * 0.3;
 	const arms: Pose = {lean: 4, head: 0, armF: [40, 120], armB: [40, 120], legF: [28 * Math.sin(ph), 6 + 38 * Math.max(0, Math.cos(ph))], legB: [-28 * Math.sin(ph), 6 + 38 * Math.max(0, -Math.cos(ph))]};
 	return (
-		<Scene from={camOn(700, 640, 1.0)} to={camOn(1100, 640, 1.2)}>
+		<Scene from={camOn(760, 640, 1.0)} to={camOn(1000, 640, 1.12)}>
 			<Layer depth={1.3}>
 				<Yard f={f} bench={false} />
 			</Layer>
 			<Layer depth={1}>
 				<Svg>
-					{[1650, 1780].map((nx, i) => (
+					{[1480, 1610].map((nx, i) => (
 						<Actor key={i} who={i ? 'svita3' : 'svita1'} sp="X" x={nx} floor={FL} s={HS} facing={-1} uid={'nb' + i} color={i ? '#8a9ba3' : '#a39b8a'} hair={i ? 'short' : 'grey'} acc={[]} outfit={i ? 'tee' : 'gown'} pose={idle(f, i)} shadow={false} />
 					))}
 					<Hero x={x} uid="h72" pose={arms} expr="worried" bob={Math.abs(Math.sin(ph)) * 4} />
@@ -954,7 +952,7 @@ export const S075: React.FC = () => {
 	return (
 		<RoofScene f={f} from={[780, 600, 1.2]} to={[760, 590, 1.55]}>
 			<Hero x={640} big fist="skin" uid="h75" pose={{...idle(f, 1), armF: [96 + sw, 70]}} handItem={<Bottle lvl={0.6} wob={0} />} expr="angry" mouth="open" />
-			<Actor who="leha" x={1100} floor={FL} s={HS} facing={-1} uid="l75" pose={idle(f, 2)} faceTurn={0.3} />
+			<Actor who="leha" x={1000} floor={FL} s={HS} facing={-1} uid="l75" pose={idle(f, 2)} faceTurn={0.3} />
 		</RoofScene>
 	);
 };
@@ -964,7 +962,7 @@ export const S076: React.FC = () => {
 	return (
 		<RoofScene f={f} from={[700, 600, 1.5]} to={[700, 620, 1.9]}>
 			<Hero x={640} big fist="skin" uid="h76" pose={{...idle(f, 1), armF: [70, 80]}} handItem={<Bottle lvl={0.6} wob={0} />} expr="normal" look={[0.9, 0]} />
-			<Actor who="leha" x={1160} floor={FL} s={HS} facing={-1} uid="l76" pose={{...idle(f, 2), armF: [100 + Math.sin(t / 4) * 20, 40]}} faceTurn={0.3} mouth="open" />
+			<Actor who="leha" x={940} floor={FL} s={HS} facing={-1} uid="l76" pose={{...idle(f, 2), armF: [100 + Math.sin(t / 4) * 20, 40]}} faceTurn={0.3} mouth="open" />
 		</RoofScene>
 	);
 };
@@ -985,8 +983,9 @@ export const S078: React.FC = () => {
 	return (
 		<RoofScene f={f} from={[780, 700, 1.15]} to={[780, 740, 1.4]}>
 			<g>
-				<rect x={900} y={880} width={600} height={50} fill="#9094ab" />
-				<Crack x={960} y={900} len={470} ang={-2} n={9} t={t - 8} w={12} plate={[240, -90]} />
+				<rect x={900} y={770} width={600} height={160} fill="#9aa0b8" stroke="#5a6078" strokeWidth={5} />
+				<rect x={890} y={750} width={620} height={30} fill="#b9bfd6" stroke="#5a6078" strokeWidth={5} />
+				<Crack x={940} y={830} len={520} ang={-2} n={9} t={t - 8} w={12} plate={[260, -130]} />
 			</g>
 			{[0, 1, 2, 3].map((i) => <Pigeon key={i} x={1400 + i * 90 + Math.max(0, t - 6) * 10} y={880 - Math.max(0, t - 6) * 9 * (1 + i * 0.2)} s={0.9} facing={1} wing={Math.abs(Math.sin(t / 2 + i))} />)}
 			<Hero x={640} big fist="white" uid="h78" pose={{...idle(f, 1), armF: [70, 80]}} handItem={brk ? undefined : <Bottle lvl={0.6} wob={0} />} expr="wide" />
@@ -1000,8 +999,9 @@ export const S079: React.FC = () => {
 	return (
 		<RoofScene f={f} from={[900, 700, 1.0]} to={[960, 700, 1.2]}>
 			<g>
-				<rect x={900} y={880} width={600} height={50} fill="#9094ab" />
-				<Crack x={960} y={900} len={470} ang={-2} n={9} t={99} w={12} plate={[240, -90]} />
+				<rect x={900} y={770} width={600} height={160} fill="#9aa0b8" stroke="#5a6078" strokeWidth={5} />
+				<rect x={890} y={750} width={620} height={30} fill="#b9bfd6" stroke="#5a6078" strokeWidth={5} />
+				<Crack x={940} y={830} len={520} ang={-2} n={9} t={99} w={12} plate={[260, -130]} />
 			</g>
 			<Shards x={800} y={900} k={1} />
 			<Hero x={640} uid="h79" pose={{...idle(f, 1), armF: [16, 20]}} expr="sad" faceTurn={0.2} />
@@ -1043,26 +1043,30 @@ export const S081: React.FC = () => {
 	const {f, at} = useShot();
 	const t = f - at('081');
 	const hit = Math.abs(Math.sin(t / 7));
-	const burst = t > 120;
+	const BURST = 70;
+	const burst = t > BURST;
+	const sand = kk(t, BURST, BURST + 60);
+	const bigFist = t >= BURST - 14 && t < BURST + 12;
 	return (
-		<Scene from={camOn(900, 640, 1.1)} to={camOn(930, 640, 1.35)} ov={t < 60 ? <Note t={t + 40} /> : null}>
+		<Scene from={camOn(900, 700, 1.1)} to={camOn(940, 690, 1.3)} ov={t < 60 ? <Note t={t + 40} /> : null}>
 			<Layer depth={1}>
-				<Gym f={f} bag={burst ? 'none' : 'whole'} light={1.4} />
+				<Gym f={f} bag="none" light={1.4} />
 			</Layer>
 			<Layer depth={1}>
 				<Svg>
 					<g transform={`rotate(${burst ? 0 : hit * 6} 860 -40)`}>
 						<line x1={860} y1={-40} x2={860} y2={470} stroke="#9aa3b5" strokeWidth={6} />
-						{burst ? <rect x={812} y={470} width={96} height={130} rx={32} fill="#8a3a2a" stroke="#4a1a10" strokeWidth={4} /> : <rect x={812} y={470} width={96} height={290} rx={32} fill="#8a3a2a" stroke="#4a1a10" strokeWidth={4} />}
+						{burst ? <path d="M812,500 L812,470 L908,470 L908,500 L880,540 L860,512 L836,556 Z" fill="#8a3a2a" stroke="#4a1a10" strokeWidth={4} /> : <rect x={812} y={470} width={96} height={290} rx={32} fill="#8a3a2a" stroke="#4a1a10" strokeWidth={4} />}
 					</g>
 					{burst ? (
 						<g>
-							<Crack x={812} y={560} len={96} ang={90} n={10} t={t - 122} w={10} plate={[120, 60]} />
-							<path d={`M860,600 L${860 - 40 * kk(t, 122, 150)},900 L${860 + 40 * kk(t, 122, 150)},900 Z`} fill="#d9c89a" opacity={0.9} />
-							<ellipse cx={860} cy={900} rx={40 + 110 * kk(t, 130, 190)} ry={12 + 16 * kk(t, 130, 190)} fill="#d9c89a" />
+							<path d={`M860,540 L${860 - 30 * sand},900 L${860 + 30 * sand},900 Z`} fill="#d9c89a" opacity={0.9} />
+							<ellipse cx={860} cy={900} rx={40 + 170 * sand} ry={10 + 40 * sand} fill="#d9c89a" />
+							<path d={`M${700},900 Q860,${900 - 120 * sand} 1020,900 Z`} fill="#d9c89a" />
+							<Crack x={850} y={480} len={120} ang={90} n={10} t={t - BURST - 4} w={11} plate={[60, -170]} />
 						</g>
 					) : null}
-					<Hero x={640} big fist="white" uid="h81" pose={reach({...idle(f, 1), lean: 10}, 'F', toLocal(804, 600, 640, hip(HS), HS, 1), burst ? 1 : hit)} expr="angry" />
+					<Hero x={640} big={bigFist} fist="white" uid="h81" pose={reach({...idle(f, 1), lean: 10}, 'F', toLocal(804, 600, 640, hip(HS), HS, 1), t < BURST + 10 ? (burst ? 1 : hit) : 0)} expr={t > BURST ? 'wide' : 'angry'} />
 				</Svg>
 			</Layer>
 		</Scene>
