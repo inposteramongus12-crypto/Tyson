@@ -55,12 +55,15 @@
 
 ## Ключи ElevenLabs
 - В окружении заданы `ELEVENLABS_API_KEY`, `_2`, `_3`, `_4`, `_5`, `_6` (значения нигде не храним)
-- `tools/eleven-voice.mjs` (версия из Looxmax) читает ключи 1–3. `eleven-voice-en.mjs` — ключи 1 и 2, `eleven.mjs` — только ключ 1
-- Ключи 4–6 не подключены
+- `tools/eleven-voice.mjs` читает ключи 1–6; `eleven.mjs` — любой ключ через `--key N` (по умолчанию 1). `eleven-voice-en.mjs` не менялся (ключи 1 и 2)
+- `--plan` (остаток кредитов): ключ 1 — 2, ключ 2 — 1, ключ 3 — 6, ключ 4 — 2719, ключ 5 — 1416, ключ 6 — 10000; всего 14144 при нужных 9089
+
+## Голоса
+- `src/story/voices.json`: N George, HERO Liam, LEHA Will, COACH Bill, MAMA Bella (варианты: Lily, Matilda, Alice, Sarah)
+- `src/story/lines.json` собран из сценария: 161 реплика, 9089 знаков
 
 ## Ещё не сделано
-- `lines.json` из сценария (`build-lines.mjs`), подбор голосов, озвучка
+- Озвучка (тесты голосов ждут «да»)
 - Сцены (`shots*.tsx`, `places.tsx`, `config.ts`), раскадровка
 - Звук
 - Рендер, превью
-- Подключение ключей 4–6
