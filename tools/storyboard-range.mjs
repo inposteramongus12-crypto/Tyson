@@ -1,4 +1,5 @@
 // Storyboard sheets for a time range: a frame every N seconds, 12 frames (4x3) per file.
+//   node tools/storyboard-range.mjs --secs 1.3,13.8,51.3 --name chg   (chosen moments, in seconds)
 //   node tools/storyboard-range.mjs --to 148 --every 2.5 [--from 0] [--per 12] [--name sb]
 // Output: out/<name>_1.jpg, out/<name>_2.jpg ... (open them and LOOK at them).
 import path from 'node:path';
@@ -12,8 +13,9 @@ const a = process.argv.slice(2);
 const val = (k, d) => (a.includes(k) ? Number(a[a.indexOf(k) + 1]) : d);
 const name = a.includes('--name') ? a[a.indexOf('--name') + 1] : 'sb';
 const from = val('--from', 0), to = val('--to', 148), every = val('--every', 2.5), per = val('--per', 12);
-const frames = [];
-for (let t = from + every / 2; t < to; t += every) frames.push(Math.round(t * 30));
+let frames = [];
+if (a.includes('--secs')) frames = a[a.indexOf('--secs') + 1].split(',').map((x) => Math.round(Number(x) * 30));
+else for (let t = from + every / 2; t < to; t += every) frames.push(Math.round(t * 30));
 const serveUrl = await bundle({entryPoint: path.join(ROOT, 'src', 'index.ts')});
 fs.mkdirSync(path.join(ROOT, 'out'), {recursive: true});
 for (let i = 0; i * per < frames.length; i++) {

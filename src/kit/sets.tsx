@@ -162,7 +162,7 @@ export const Blanket: React.FC<{night?: boolean; f: number; lift?: number}> = ({
 
 /* --------------------------------- kitchen ---------------------------------- */
 
-export const Kitchen: React.FC<{night?: boolean}> = ({night}) => (
+export const Kitchen: React.FC<{night?: boolean; mug?: boolean}> = ({night, mug = true}) => (
 	<Svg>
 		<Wall id={night ? 'kt-wn' : 'kt-wd'} top={night ? '#2a2a48' : '#f3e6c4'} bot={night ? '#3a3352' : '#ecd9ac'} />
 		{/* tiles */}
@@ -182,8 +182,12 @@ export const Kitchen: React.FC<{night?: boolean}> = ({night}) => (
 		{/* counter */}
 		<rect x={-300} y={640} width={1000} height={24} fill={night ? '#5a5478' : '#d9c09a'} />
 		<rect x={-300} y={664} width={1000} height={260} fill={night ? '#3a3556' : '#6aa892'} />
-		<rect x={240} y={570} width={90} height={70} rx={10} fill="#e8e8ee" />
-		<path d="M330,590 q30,0 30,20 q0,20 -30,20" stroke="#c9c9d3" strokeWidth={8} fill="none" />
+		{mug ? (
+			<>
+				<rect x={240} y={570} width={90} height={70} rx={10} fill="#e8e8ee" />
+				<path d="M330,590 q30,0 30,20 q0,20 -30,20" stroke="#c9c9d3" strokeWidth={8} fill="none" />
+			</>
+		) : null}
 		<rect x={80} y={600} width={60} height={40} rx={8} fill="#2b2f3a" />
 		{/* fridge with dad photo */}
 		<rect x={1500} y={420} width={270} height={480} rx={18} fill={night ? '#c9c6dc' : '#f4f6fa'} />
