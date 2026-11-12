@@ -9,18 +9,11 @@ import {Layer, Svg, camOn, clamp, ease, flash} from '../kit/kit';
 import {FONT, HAND} from '../kit/ui';
 import {FL, HS, hip} from './common';
 import {Crack, GOLD, Hero, PLATE, Plate, Scene, handTo, kk, lerp} from './parts';
-import {CardBG, Egg, Gym, Palm, coachAt, palmAt, palmPose, Shoulders} from './parts2';
+import {CardBG, Egg, Gym, OpenHand, Palm, coachAt, palmAt, palmPose, Shoulders} from './parts2';
 import {Arena, FrameArt, NewRoof} from './parts3';
 
 /* Scenes of part 11 (lines 146–161): the finale. Knuckles: white only in the flash of Tokyo and the replay; every success is normal-coloured. */
 
-const OpenHand: React.FC<{x: number; y: number; s?: number}> = ({x, y, s = 1}) => (
-	<g transform={`translate(${x},${y}) scale(${s})`}>
-		{[0, 1, 2, 3].map((i) => <rect key={i} x={-33 + i * 17} y={-70 + (i === 1 || i === 2 ? -10 : 0)} width={15} height={72} rx={7.5} fill="#e9a373" stroke="#a85a32" strokeWidth={3.5} />)}
-		<rect x={-52} y={-20} width={16} height={56} rx={8} fill="#e9a373" stroke="#a85a32" strokeWidth={3.5} transform="rotate(-38 -44 30)" />
-		<rect x={-38} y={-14} width={76} height={76} rx={22} fill="#e9a373" stroke="#a85a32" strokeWidth={3.5} />
-	</g>
-);
 /* 146: «ПРАВИЛО 1» cracks along the old crack and crumbles */
 const ZIG: [number, number][] = [[1100, 100], [1040, 260], [1130, 420], [980, 580], [1070, 740], [900, 880], [960, 990]];
 const CardFace: React.FC = () => (
@@ -251,7 +244,7 @@ export const S155: React.FC = () => {
 				<text x={0} y={60} textAnchor="middle" fontFamily={HAND} fontWeight={700} fontSize={260} fill="#2b3366">ПЛЕЧИ</text>
 				<line x1={-330} y1={110} x2={330} y2={110} stroke="#d94a3a" strokeWidth={14} strokeLinecap="round" />
 				<line x1={-330} y1={160} x2={330} y2={160} stroke="#d94a3a" strokeWidth={14} strokeLinecap="round" />
-				<g transform={`translate(${190},${-40 - tap})`}>
+				<g transform={`translate(${400},${215 - tap * 0.6})`}>
 					<line x1={150} y1={200} x2={720} y2={420} stroke="#6b7f8e" strokeWidth={110} strokeLinecap="round" />
 					<rect x={-70} y={-40} width={230} height={90} rx={45} fill="#e9a373" stroke="#a85a32" strokeWidth={8} transform="rotate(62 40 0)" />
 				</g>
@@ -285,7 +278,7 @@ const Evening: React.FC<{f: number; from: [number, number, number]; to: [number,
 			<Svg>
 				<KitchenTable night mugs={0} />
 				<g transform="translate(1640,290) scale(0.8)"><FrameArt x={0} y={0} cracked /></g>
-				<Crack x={1560} y={250} len={180} ang={36} n={13} t={99} w={9} plate={[80, 150]} ox={0} oy={0} />
+				<Crack x={1560} y={250} len={180} ang={36} n={13} t={99} w={9} plate={[80, 150]} ox={0} oy={0} noPlate />
 				{children}
 			</Svg>
 		</Layer>

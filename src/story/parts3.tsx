@@ -529,7 +529,7 @@ export const NewRoof: React.FC<{f: number; crack?: number; crumble?: number; nig
 		<rect x={900} y={800} width={600} height={110} fill="#c9ced8" stroke="#5a6078" strokeWidth={5} />
 		<rect x={890} y={782} width={620} height={26} fill="#dfe3ee" stroke="#5a6078" strokeWidth={5} />
 		{Array.from({length: 15}).map((_, i) => <rect key={i} x={906 + i * 39} y={820} width={35} height={36} fill={i % 2 ? '#4a7fb8' : '#6a9fd8'} stroke="#2a4a78" strokeWidth={2} />)}
-		{crack !== undefined ? <Crack x={930} y={868} len={540} ang={-2} n={24} t={crack} w={13} plate={[380, -110]} /> : null}
+		{crack !== undefined ? <Crack x={930} y={868} len={540} ang={-2} n={24} t={crack} w={13} plate={[380, -110]} noPlate={crack >= 90} /> : null}
 		{crumble > 0 ? Array.from({length: 10}).map((_, i) => <polygon key={i} points="0,0 14,-4 8,12" fill="#c9ced8" stroke="#5a6078" strokeWidth={2} transform={`translate(${1010 + i * 36},${880 + crumble * (20 + random('cr' + i) * 120)}) rotate(${i * 50})`} opacity={1 - crumble * 0.4} />) : null}
 		{/* coop */}
 		<g>

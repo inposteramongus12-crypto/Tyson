@@ -175,7 +175,7 @@ export const S043: React.FC = () => {
 	const {f, at} = useShot();
 	const t = f - at('043');
 	const sway = Math.sin(t / 9) * 12;
-	const hits: [number, number, number][] = [[1230, 380, 1], [1010, 520, 2], [1240, 560, 3], [700, 470, 7]];
+	const hits: [number, number, number][] = [[1230, 380, 1], [1450, 470, 2], [1240, 560, 3], [700, 470, 7]];
 	return (
 		<CardBG t={t} push={0.18} html={<Plate x={960} y={70} w={760} h={120} text="ПИКАБУ" t={t} size={78} />}>
 			<g transform={`translate(0,0)`}>
@@ -530,6 +530,19 @@ export const S057: React.FC = () => {
 	);
 };
 
+export const OpenHand: React.FC<{x: number; y: number; s?: number}> = ({x, y, s = 1}) => (
+	<g transform={`translate(${x},${y}) scale(${s})`}>
+		{[0, 1, 2, 3].map((i) => <rect key={i} x={-33 + i * 17} y={-70 + (i === 1 || i === 2 ? -10 : 0)} width={15} height={72} rx={7.5} fill="#e9a373" stroke="#a85a32" strokeWidth={3.5} />)}
+		<rect x={-52} y={-20} width={16} height={56} rx={8} fill="#e9a373" stroke="#a85a32" strokeWidth={3.5} transform="rotate(-38 -44 30)" />
+		<rect x={-38} y={-14} width={76} height={76} rx={22} fill="#e9a373" stroke="#a85a32" strokeWidth={3.5} />
+	</g>
+);
+/* open palm seen from the side: wrist at (x,y), fingers point right, thumb below */
+export const FlatPalm: React.FC<{x: number; y: number; s?: number}> = ({x, y, s = 1}) => (
+	<g transform={`translate(${x + 62 * s},${y}) scale(1,-1) rotate(90)`}>
+		<OpenHand x={0} y={0} s={s} />
+	</g>
+);
 export const Palm: React.FC<{x: number; y: number; ang?: number}> = ({x, y, ang = 0}) => (
 	<g transform={`translate(${x},${y}) rotate(${ang})`}>
 		<rect x={-44} y={-10} width={92} height={20} rx={10} fill="#e9a373" stroke="#a85a32" strokeWidth={4} />
@@ -625,7 +638,7 @@ export const S062: React.FC = () => {
 	return (
 		<Scene from={camOn(960, 640, 1.0)} to={camOn(1010, 630, 1.3)}
 			ov={<>{t < 90 ? <Plate x={960} y={70} w={900} h={120} text="ДОМ КУЛЬТУРЫ" size={70} t={t} c="#c9a640" /> : null}<svg viewBox="0 0 1920 1080" width={1920} height={1080} style={{position: 'absolute'}}>
-				<Bubble x={1330} y={250} w={760} h={150} t={t - 120} tail={[-90, 130]}>
+				<Bubble x={1330} y={190} w={760} h={150} t={t - 120} tail={[-90, 90]}>
 					<text x={0} y={22} textAnchor="middle" fontFamily={FONT} fontWeight={900} fontSize={70} fill="#14162a">Мальчик, ты чей?</text>
 				</Bubble>
 			</svg></>}>

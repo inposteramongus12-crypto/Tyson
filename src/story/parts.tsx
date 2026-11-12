@@ -29,18 +29,34 @@ type ShotProps = {from: Cam; to?: Cam; bg?: string; children: React.ReactNode; o
 type PlateInfo = {x: number; y: number; n: number; t: number};
 const PlateReg = createContext<{list: PlateInfo[]} | null>(null);
 /* crack-number plates are collected while the scene renders and drawn last, on top of every layer (characters, furniture) */
-const TopPlates: React.FC<{reg: {list: PlateInfo[]}}> = ({reg}) => (
-	<Svg>
-		{reg.list.map((p, i) => (
-			<g key={i} transform={`translate(${p.x},${p.y}) scale(${0.6 + 0.4 * interpolate(p.t, [4, 14], [0, 1], clamp)})`} opacity={interpolate(p.t, [4, 10], [0, 1], clamp)}>
-				<rect x={-86} y={-44} width={172} height={88} rx={20} fill={PLATE} stroke={GOLD} strokeWidth={6} />
-				<text x={0} y={22} textAnchor="middle" fontFamily={FONT} fontWeight={900} fontSize={66} fill={GOLD}>
-					№{p.n}
-				</text>
-			</g>
-		))}
-	</Svg>
-);
+const PLATE_S = 1.15; /* on-screen size of a crack plate is the same in every shot */
+const TopPlates: React.FC<{reg: {list: PlateInfo[]}; cam: {x: number; y: number; zoom: number}}> = ({reg, cam}) => {
+	const z = cam.zoom;
+	const X = cam.x / z + 960;
+	const Y = cam.y / z + 540;
+	const hw = 86 * PLATE_S + 62;
+	const hh = 44 * PLATE_S + 62;
+	return (
+		<Svg>
+			{reg.list.map((p, i) => {
+				/* world -> screen, keep the whole plate 60 px inside the frame, back to world */
+				const sx = Math.max(hw, Math.min(1920 - hw, 960 + (p.x - X) * z));
+				const sy = Math.max(hh, Math.min(1080 - hh, 540 + (p.y - Y) * z));
+				const wx = X + (sx - 960) / z;
+				const wy = Y + (sy - 540) / z;
+				const sc = (PLATE_S / z) * (0.6 + 0.4 * interpolate(p.t, [4, 14], [0, 1], clamp));
+				return (
+					<g key={i} transform={`translate(${wx},${wy}) scale(${sc})`} opacity={interpolate(p.t, [4, 10], [0, 1], clamp)}>
+						<rect x={-86} y={-44} width={172} height={88} rx={20} fill={PLATE} stroke={GOLD} strokeWidth={6} />
+						<text x={0} y={22} textAnchor="middle" fontFamily={FONT} fontWeight={900} fontSize={66} fill={GOLD}>
+							№{p.n}
+						</text>
+					</g>
+				);
+			})}
+		</Svg>
+	);
+};
 export const Scene: React.FC<ShotProps> = ({from, to, bg, children, ov, night, still, light}) => {
 	const end = to ?? {...from, zoom: from.zoom * 1.1};
 	const cam = usePush(from, end);
@@ -51,7 +67,7 @@ export const Scene: React.FC<ShotProps> = ({from, to, bg, children, ov, night, s
 				<Stage cam={cam} bg={bg ?? '#1b2038'} light={light === false ? false : night ? {night: true} : {}} still={still} dust={night ? undefined : '#ffe9b8'}>
 					{children}
 					<Layer depth={1}>
-						<TopPlates reg={reg} />
+						<TopPlates reg={reg} cam={cam} />
 					</Layer>
 				</Stage>
 				{ov}
@@ -676,7 +692,7 @@ export const S017: React.FC = () => {
 	return (
 		<Scene from={camOn(900, 620, 1.05)} to={camOn(1000, 650, 1.4)}
 			ov={<svg viewBox="0 0 1920 1080" width={1920} height={1080} style={{position: 'absolute'}}>
-				<Bubble x={1180} y={230} w={600} h={150} t={t - 22} tail={[-80, 130]}>
+				<Bubble x={1180} y={170} w={600} h={150} t={t - 22} tail={[-80, 90]}>
 					<text x={0} y={18} textAnchor="middle" fontFamily={FONT} fontWeight={900} fontSize={64} fill="#14162a">Как обычно.</text>
 				</Bubble>
 			</svg>}>

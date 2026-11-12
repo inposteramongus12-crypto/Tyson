@@ -102,6 +102,7 @@ export const SHOTS: ShotDef[] = [
 	{at: '094', C: R.S094},
 	{at: '095', C: R.S095, whip: true},
 	{at: '096', C: R.S096, own: true, whip: true},
+	{at: '096', off: 160, C: R.S096, own: true}, /* same card, a new framing for the timer (the shot would be 11 s) */
 	{at: '097', C: R.S097, whip: true},
 	{at: '098', C: R.S098, whip: true},
 	{at: '099', C: R.S099, own: true, whip: true},

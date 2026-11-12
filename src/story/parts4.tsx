@@ -9,7 +9,7 @@ import {Layer, Svg, camOn, clamp, ease, flash} from '../kit/kit';
 import {Bubble, FONT} from '../kit/ui';
 import {FL, HS, hip} from './common';
 import {Crack, GOLD, Hero, LehaUp, PLATE, Plate, Scene, handTo, kk, lerp} from './parts';
-import {Cap, CardBG, Egg, Gym, Palm, Shoulders, Splat, coachAt, palmAt, palmPose} from './parts2';
+import {Cap, CardBG, Egg, FlatPalm, Gym, Palm, Shoulders, Splat, coachAt, palmAt, palmPose} from './parts2';
 import {Arena, BeltArt, Glasses, Lounger, NB9, NewHouse, NewRoof, Shovel, SelfieStick} from './parts3';
 
 /* Scenes of parts 9–10 (lines 112–145): Tokyo and the chick.
@@ -144,7 +144,7 @@ const RefereeCloud: React.FC<{t: number}> = ({t}) => {
 	const shown = words.filter((_, i) => t >= i * 22).join(' ');
 	return (
 		<svg viewBox="0 0 1920 1080" width={1920} height={1080} style={{position: 'absolute'}}>
-			<Bubble x={1250} y={230} w={900} h={160} t={t + 2} tail={[-120, 140]}>
+			<Bubble x={1250} y={150} w={900} h={110} t={t + 2} tail={[-60, 50]}>
 				<text x={0} y={22} textAnchor="middle" fontFamily={FONT} fontWeight={900} fontSize={50} fill="#14162a">{shown}</text>
 			</Bubble>
 		</svg>
@@ -631,49 +631,58 @@ const FacadeScene: React.FC<{f: number; from: [number, number, number]; to: [num
 );
 const kneel = (lean: number, tx: number, ty: number, hx: number, hy: number): Pose => reach(reach({...SIT, lean}, 'F', toLocal(tx, ty, hx, hy, HS, 1), 1), 'B', [-14, -10], 1);
 const HX2 = 760;
-const HY2 = 150;
+const HY2 = 192;
+/* open palm of the hero with the chick on it; (px,py) is the wrist. top of the palm is 38*s above py */
+const ChickOnPalm: React.FC<{px: number; py: number; s?: number; cs?: number; t?: number; dy?: number}> = ({px, py, s = 0.9, cs = 2.2, t = 0, dy = 0}) => (
+	<g>
+		<FlatPalm x={px} y={py} s={s} />
+		<Chick x={px + 62 * s - 12 * s} y={py - 38 * s + dy} s={cs} band flap={Math.sin(t / 5) * 0.1} />
+	</g>
+);
 export const S138: React.FC = () => {
 	const {f, at} = useShot();
 	const t = f - at('138');
 	const slow = kk(t, 4, 80);
-	const cy = lerp(210, 330, slow * slow);
+	const cy = lerp(200, 330, slow * slow);
+	const pose = kneel(70, 1050, 470, HX2, HY2);
+	const [px, py] = frontHand(pose, HX2, HY2, HS, 1);
 	return (
-		<FacadeScene f={f} from={[960, 330, 1.0]} to={[960, 340, 1.1]} ov={<Plate x={960} y={60} w={260} h={220} text="2" t={t - 6} size={170} />}>
-			<Hero x={HX2} seat={HY2} hideLegs uid="h138" pose={kneel(70, 960, 330, HX2, HY2)} expr="wide" />
-			<g transform={`translate(0,${0})`}>
-				<Chick x={960 + Math.sin(t / 5) * 4} y={cy} s={2.2} band flap={Math.sin(t / 3)} />
-				{Array.from({length: 7}).map((_, i) => <circle key={i} cx={940 + i * 10 + Math.sin(t / 6 + i) * 12} cy={cy - 40 - ((t * 0.5 + i * 11) % 60)} r={3} fill="#efe3b8" opacity={0.8} />)}
-			</g>
+		<FacadeScene f={f} from={[980, 300, 1.05]} to={[1000, 330, 1.25]} ov={<Plate x={1560} y={70} w={260} h={220} text="2" t={t - 6} size={170} />}>
+			<Hero x={HX2} seat={HY2} uid="h138" pose={pose} expr="wide" />
+			<FlatPalm x={px} y={py} s={0.9} />
+			<Chick x={1100 + Math.sin(t / 5) * 4} y={cy} s={2.2} band flap={Math.sin(t / 3)} />
+			{Array.from({length: 7}).map((_, i) => <circle key={i} cx={1080 + i * 10 + Math.sin(t / 6 + i) * 12} cy={cy - 40 - ((t * 0.5 + i * 11) % 60)} r={3} fill="#efe3b8" opacity={0.8} />)}
 		</FacadeScene>
 	);
 };
 export const S139: React.FC = () => {
 	const {f, at} = useShot();
 	const t = f - at('139');
-	const dn = kk(t, 20, 150);
-	const palmY = lerp(330, 430, dn);
-	const pose = kneel(70, 960, palmY, HX2, HY2);
+	const dn = kk(t, 60, 150);
+	const pose = kneel(70, 1050, lerp(470, 560, dn), HX2, HY2);
 	const [px, py] = frontHand(pose, HX2, HY2, HS, 1);
+	const land = py - 38 * 0.9 + 0;
+	const fall = kk(t, 0, 56);
+	const cy = lerp(330, land, fall * fall);
 	return (
-		<FacadeScene f={f} from={[960, 360, 1.15]} to={[960, 400, 1.5]} ov={<Plate x={960} y={60} w={260} h={220} text="1" t={t - 10} size={170} />}>
-			<Hero x={HX2} seat={HY2} hideLegs uid="h139" pose={pose} expr="normal" look={[0.6, 0.8]} />
-			<Palm x={px + 6} y={py} ang={0} />
-			<Chick x={px + 6} y={py - 8} s={2.2} band flap={0} />
+		<FacadeScene f={f} from={[1000, 340, 1.3]} to={[1000, 350, 1.5]} ov={<Plate x={1560} y={70} w={260} h={220} text="1" t={t - 10} size={170} />}>
+			<Hero x={HX2} seat={HY2} uid="h139" pose={pose} expr="normal" look={[0.6, 0.8]} />
+			<FlatPalm x={px} y={py} s={0.9} />
+			<Chick x={px + 62 * 0.9 - 10 + (fall < 1 ? 0 : 0)} y={Math.min(cy, land)} s={2.2} band flap={fall < 1 ? Math.sin(t / 2) * 0.6 : 0} />
 		</FacadeScene>
 	);
 };
 export const S140: React.FC = () => {
 	const {f, at} = useShot();
 	const t = f - at('140');
-	const pose = kneel(70, 960, 430, HX2, HY2);
+	const pose = kneel(70, 1050, 560, HX2, HY2);
 	const [px, py] = frontHand(pose, HX2, HY2, HS, 1);
 	return (
 		<AbsoluteFill style={{background: '#000'}}>
 			<AbsoluteFill style={{opacity: kk(t, 15, 40)}}>
-				<FacadeScene f={f} from={[960, 400, 1.5]} to={[960, 410, 1.6]}>
-					<Hero x={HX2} seat={HY2} hideLegs uid="h140" pose={pose} expr="normal" look={[0.6, 0.8]} />
-					<Palm x={px + 6} y={py} ang={0} />
-					<Chick x={px + 6} y={py - 8} s={2.2} band flap={0} />
+				<FacadeScene f={f} from={[1000, 350, 1.5]} to={[1000, 350, 1.6]}>
+					<Hero x={HX2} seat={HY2} uid="h140" pose={pose} expr="normal" look={[0.6, 0.8]} />
+					<ChickOnPalm px={px} py={py} t={t} />
 				</FacadeScene>
 			</AbsoluteFill>
 		</AbsoluteFill>
@@ -683,17 +692,18 @@ export const S141: React.FC = () => {
 	const {f, at} = useShot();
 	const t = f - at('141');
 	const peck = Math.abs(Math.sin(t / 7));
+	const WX = 760, WY = 800;
 	return (
-		<Scene night from={camOn(960, 640, 1.8)} to={camOn(960, 640, 2.3)}>
+		<Scene night from={camOn(960, 560, 1.0)} to={camOn(960, 560, 1.12)}>
 			<Layer depth={1}>
 				<Svg>
 					<rect x={-400} y={-300} width={2800} height={1500} fill="#1d2550" />
-					<path d="M960,1100 L1120,900" stroke="#f2b21c" strokeWidth={80} strokeLinecap="round" />
-					<Palm x={940} y={820} ang={-8} />
-					<Chick x={930} y={812} s={3.6} band flap={0.1} />
-					<g transform={`translate(${1130 - 60 * peck},${700 + 10 * peck})`}>
-						<path d="M200,260 L60,40" stroke="#f2b21c" strokeWidth={60} strokeLinecap="round" />
-						<rect x={-40} y={-26} width={100} height={42} rx={21} fill="#e9a373" stroke="#a85a32" strokeWidth={5} transform="rotate(-24)" />
+					<path d={`M${WX - 330},1200 L${WX - 30},${WY + 20}`} stroke="#f2b21c" strokeWidth={110} strokeLinecap="round" />
+					<ChickOnPalm px={WX} py={WY} s={2.6} cs={4.4} t={t} />
+					<g transform={`translate(${1040 - 60 * peck},${585 + 8 * peck})`}>
+						<path d="M110,150 L520,760" stroke="#f2b21c" strokeWidth={90} strokeLinecap="round" />
+						<path d="M0,0 L120,170" stroke="#a85a32" strokeWidth={66} strokeLinecap="round" />
+						<path d="M0,0 L120,170" stroke="#e9a373" strokeWidth={54} strokeLinecap="round" />
 					</g>
 				</Svg>
 			</Layer>
@@ -708,8 +718,7 @@ export const S142: React.FC = () => {
 		<NightRoof f={f} from={[860, 700, 1.1]} to={[860, 700, 1.45]} crack>
 			<OldCracks n={5} />
 			<Hero x={700} seat={872} uid="h142" pose={pose} expr="normal" look={[0.7, 0.9]} />
-			<Palm x={px + 6} y={py} ang={0} />
-			<Chick x={px + 6} y={py - 8} s={1.9} band flap={0} />
+			<ChickOnPalm px={px} py={py} s={0.9} cs={1.9} t={f} />
 		</NightRoof>
 	);
 };
@@ -728,40 +737,35 @@ export const S143: React.FC = () => {
 		</NightRoof>
 	);
 };
+/* tea on the roof: Leha pours, the hero (normal fist) takes the plain porcelain mug, the chick sits on the other palm */
+const TeaScene: React.FC<{f: number; t: number; take: number; pour: number; drop: number; from: [number, number, number]; to: [number, number, number]}> = ({f, t, take, pour, drop, from, to}) => {
+	const HXT = 820;
+	const hp = reach(reach({...idle(f, 1), lean: 4}, 'B', toLocal(940, 690, HXT, hip(HS), HS, 1), 1), 'F', toLocal(lerp(1010, 960, take), lerp(700, 640, take), HXT, hip(HS), HS, 1), 1);
+	const [bx, by] = frontHand(hp, HXT, hip(HS), HS, 1);
+	const [qx, qy] = frontHand(reach({...idle(f, 1), lean: 4}, 'B', toLocal(940, 690, HXT, hip(HS), HS, 1), 1), HXT, hip(HS), HS, 1);
+	void qx; void qy;
+	return (
+		<NightRoof f={f} from={from} to={to} crack>
+			<Actor who="leha" x={1330} floor={FL} s={HS} facing={-1} uid="l144" pose={{...idle(f, 2), armF: [80, 50], armB: [60, 50]}} faceTurn={0.2} mouth="smile" />
+			<Pot x={1240} y={690} r={0.9} />
+			{pour > 0 && pour < 1 ? <path d={`M1200,700 Q1170,${720 + 40 * pour} 1130,745`} stroke="#9a6a3a" strokeWidth={8} fill="none" /> : null}
+			<g transform="translate(-640,0)"><NestN /></g>
+			<Hero x={HXT} big fist="skin" uid="h144" pose={hp} expr="normal" />
+			<MugC x={lerp(1110, bx + 8, take)} y={lerp(735, by - 34, take)} s={1.25} steam={0.6} />
+			<g transform={`translate(${1290 + drop * 70},${690 + drop * 190}) rotate(${-10 + drop * 70})`}>
+				<NB9 x={0} y={0} />
+			</g>
+		</NightRoof>
+	);
+};
 export const S144: React.FC = () => {
 	const {f, at} = useShot();
 	const t = f - at('144');
-	const take = kk(t, 60, 100);
-	const pour = kk(t, 10, 50);
-	const hp = reach(reach({...idle(f, 1), lean: 4}, 'B', toLocal(980, 700, 860, hip(HS), HS, 1), 1), 'F', toLocal(lerp(1040, 1000, take), 700, 860, hip(HS), HS, 1), 1);
-	const [bx, by] = frontHand(hp, 860, hip(HS), HS, 1);
-	return (
-		<NightRoof f={f} from={[1000, 680, 1.1]} to={[1020, 680, 1.45]} crack>
-			<Actor who="leha" x={1250} floor={FL} s={HS} facing={-1} uid="l144" pose={{...idle(f, 2), armF: [80, 50], armB: [60, 50]}} faceTurn={0.2} mouth="smile" />
-			<Pot x={1170} y={690} r={0.9} />
-			{pour > 0 && pour < 1 ? <path d={`M1130,700 Q1100,${720 + 40 * pour} 1060,740`} stroke="#9a6a3a" strokeWidth={8} fill="none" /> : null}
-			<MugC x={lerp(1050, bx + 30, take)} y={lerp(730, by + 10, take)} s={1} steam={0.6} />
-			<Hero x={860} big fist="skin" uid="h144" pose={hp} expr="normal" />
-			<Palm x={980} y={700} ang={0} />
-			<Chick x={982} y={692} s={1.8} band />
-		</NightRoof>
-	);
+	return <TeaScene f={f} t={t} take={kk(t, 60, 100)} pour={kk(t, 10, 50)} drop={0} from={[1040, 640, 1.1]} to={[1060, 640, 1.3]} />;
 };
 export const S145: React.FC = () => {
 	const {f, at} = useShot();
 	const t = f - at('145');
-	return (
-		<Scene night from={camOn(960, 640, 1.7)} to={camOn(960, 640, 2.1)}>
-			<Layer depth={1}>
-				<Svg>
-					<rect x={-400} y={-300} width={2800} height={1500} fill="#1d2550" />
-					<MugC x={900} y={780} s={3.2} steam={1} />
-					<g transform={`translate(${1420},${420 + Math.min(300, Math.max(0, t - 6) * 12)}) rotate(${Math.max(0, t - 6) * 6})`}>
-						<NB9 x={0} y={0} />
-					</g>
-				</Svg>
-			</Layer>
-		</Scene>
-	);
+	return <TeaScene f={f} t={t} take={1} pour={0} drop={kk(t, 2, 20)} from={[1060, 640, 1.3]} to={[1080, 640, 1.5]} />;
 };
 export {Cap, Egg, Shovel, SelfieStick, BeltArt, Lounger, Fist, Chair, ParapetBox, LehaFloor};
