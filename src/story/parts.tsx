@@ -16,17 +16,17 @@ import {toLocal} from '../engine/Stickman';
    - small text is large (plate text 56+ px, bubbles 46+ px);
    - white knuckles in every breakage scene, normal-coloured knuckles in successes and quiet moments;
    - medium shots enlarge the fist (fistK), every still frame gets a slow camera push. */
-const FK = 2.2;
-const PLATE = '#11142c';
-const GOLD = '#ffc94a';
+export const FK = 2.2;
+export const PLATE = '#11142c';
+export const GOLD = '#ffc94a';
 
 /* ------------------------------- helpers ------------------------------- */
-const lerp = (a: number, b: number, k: number) => a + (b - a) * k;
-const kk = (f: number, a: number, b: number) => interpolate(f, [a, b], [0, 1], {...clamp, easing: ease});
+export const lerp = (a: number, b: number, k: number) => a + (b - a) * k;
+export const kk = (f: number, a: number, b: number) => interpolate(f, [a, b], [0, 1], {...clamp, easing: ease});
 
 type ShotProps = {from: Cam; to?: Cam; bg?: string; children: React.ReactNode; ov?: React.ReactNode; night?: boolean; still?: boolean; light?: false};
 /* one scene: camera pushes from `from` to `to` over the shot (a push of 8–14 % if `to` is omitted) */
-const Scene: React.FC<ShotProps> = ({from, to, bg, children, ov, night, still, light}) => {
+export const Scene: React.FC<ShotProps> = ({from, to, bg, children, ov, night, still, light}) => {
 	const end = to ?? {...from, zoom: from.zoom * 1.1};
 	const cam = usePush(from, end);
 	return (
@@ -40,7 +40,7 @@ const Scene: React.FC<ShotProps> = ({from, to, bg, children, ov, night, still, l
 };
 
 /* screen-space plate: its box stays 60 px inside the frame */
-const Plate: React.FC<{x: number; y: number; w: number; h?: number; text: string; sub?: string; t?: number; c?: string; size?: number}> = ({x, y, w, h = 120, text, sub, t = 99, c = GOLD, size = 64}) => {
+export const Plate: React.FC<{x: number; y: number; w: number; h?: number; text: string; sub?: string; t?: number; c?: string; size?: number}> = ({x, y, w, h = 120, text, sub, t = 99, c = GOLD, size = 64}) => {
 	const L = Math.max(60, Math.min(1920 - 60 - w, x - w / 2));
 	const T = Math.max(60, Math.min(1080 - 60 - h, y));
 	const k = interpolate(t, [0, 7], [0, 1], clamp);
@@ -53,7 +53,7 @@ const Plate: React.FC<{x: number; y: number; w: number; h?: number; text: string
 };
 
 /* a crack on a thing: jagged line + big number plate on the thing. t = frames since it appeared; it stays. */
-const Crack: React.FC<{x: number; y: number; len: number; ang?: number; n: number; t: number; w?: number; plate?: [number, number]}> = ({x, y, len, ang = 0, n, t, w = 9, plate}) => {
+export const Crack: React.FC<{x: number; y: number; len: number; ang?: number; n: number; t: number; w?: number; plate?: [number, number]}> = ({x, y, len, ang = 0, n, t, w = 9, plate}) => {
 	if (t < 0) return null;
 	const k = interpolate(t, [0, 9], [0, 1], clamp);
 	const pts = Array.from({length: 9}).map((_, i) => [(i / 8) * len, (i % 2 ? 1 : -1) * (14 + random('cr' + n + i) * 22) * (i === 0 || i === 8 ? 0.3 : 1)]);
@@ -64,7 +64,7 @@ const Crack: React.FC<{x: number; y: number; len: number; ang?: number; n: numbe
 		<g transform={`translate(${x},${y}) rotate(${ang})`}>
 			<path d={d} stroke="#0b0d1e" strokeWidth={w + 6} fill="none" strokeLinejoin="round" strokeLinecap="round" pathLength={1} strokeDasharray="1" strokeDashoffset={1 - k} />
 			<path d={d} stroke="#fff4c8" strokeWidth={w - 4} fill="none" strokeLinejoin="round" strokeLinecap="round" pathLength={1} strokeDasharray="1" strokeDashoffset={1 - k} />
-			<g transform={`translate(${px},${py}) scale(${0.6 + 0.4 * interpolate(t, [4, 14], [0, 1], clamp)})`} opacity={interpolate(t, [4, 10], [0, 1], clamp)}>
+			<g transform={`translate(${px},${py}) rotate(${-ang}) scale(${0.6 + 0.4 * interpolate(t, [4, 14], [0, 1], clamp)})`} opacity={interpolate(t, [4, 10], [0, 1], clamp)}>
 				<rect x={-86} y={-44} width={172} height={88} rx={20} fill={PLATE} stroke={GOLD} strokeWidth={6} />
 				<text x={0} y={22} textAnchor="middle" fontFamily={FONT} fontWeight={900} fontSize={66} fill={GOLD}>
 					№{n}
@@ -74,14 +74,14 @@ const Crack: React.FC<{x: number; y: number; len: number; ang?: number; n: numbe
 	);
 };
 
-const Hero: React.FC<{big?: boolean; x: number; s?: number; facing?: 1 | -1; fist?: Knuckles; pose?: Pose; expr?: any; uid: string; floor?: number; seat?: number; mouth?: any; look?: [number, number]; faceTurn?: number; handItem?: React.ReactNode; armOver?: boolean}> = ({x, s = HS, facing = 1, fist = 'skin', big = false, uid, floor = FL, ...rest}) => (
+export const Hero: React.FC<{bob?: number; hideLegs?: boolean; big?: boolean; x: number; s?: number; facing?: 1 | -1; fist?: Knuckles; pose?: Pose; expr?: any; uid: string; floor?: number; seat?: number; mouth?: any; look?: [number, number]; faceTurn?: number; handItem?: React.ReactNode; armOver?: boolean}> = ({x, s = HS, facing = 1, fist = 'skin', big = false, uid, floor = FL, ...rest}) => (
 	<Actor who="hero" x={x} floor={floor} s={s} facing={facing} fist={big ? fist : undefined} fistK={big ? FK : undefined} uid={uid} faceTurn={0.3} {...rest} />
 );
 /* hand of the hero on a world point */
-const handTo = (p: Pose, x: number, s: number, facing: 1 | -1, t: [number, number], k: number, side: 'F' | 'B' = 'F') => reach(p, side, toLocal(t[0], t[1], x, hip(s), s, facing), k);
+export const handTo = (p: Pose, x: number, s: number, facing: 1 | -1, t: [number, number], k: number, side: 'F' | 'B' = 'F') => reach(p, side, toLocal(t[0], t[1], x, hip(s), s, facing), k);
 
 /* --------------------------------- places -------------------------------- */
-const Yard: React.FC<{f: number; bench?: boolean}> = ({f, bench = true}) => (
+export const Yard: React.FC<{f: number; bench?: boolean}> = ({f, bench = true}) => (
 	<Svg>
 		<Wall id="yd-sky" top="#7fc0ea" bot="#e9f4fb" />
 		{[300, 1100, 1650].map((x, i) => (
@@ -112,7 +112,7 @@ const Yard: React.FC<{f: number; bench?: boolean}> = ({f, bench = true}) => (
 		{bench ? <Bench x={1360} y={880} /> : null}
 	</Svg>
 );
-const Bench: React.FC<{x: number; y: number; w?: number}> = ({x, y, w = 380}) => (
+export const Bench: React.FC<{x: number; y: number; w?: number}> = ({x, y, w = 380}) => (
 	<g>
 		<rect x={x - 10} y={y - 190} width={w + 20} height={36} rx={10} fill="#8a6a44" />
 		<rect x={x - 10} y={y - 120} width={w + 20} height={30} rx={8} fill="#b98a5a" />
@@ -121,7 +121,7 @@ const Bench: React.FC<{x: number; y: number; w?: number}> = ({x, y, w = 380}) =>
 	</g>
 );
 
-const Roof: React.FC<{night?: boolean; f: number; hatch?: boolean}> = ({night, f, hatch}) => (
+export const Roof: React.FC<{night?: boolean; f: number; hatch?: boolean}> = ({night, f, hatch}) => (
 	<Svg>
 		<Wall id={night ? 'rf-n' : 'rf-d'} top={night ? '#070a1e' : '#f08a4a'} bot={night ? '#1d2550' : '#ffd79a'} />
 		{night ? (
@@ -155,14 +155,14 @@ const Roof: React.FC<{night?: boolean; f: number; hatch?: boolean}> = ({night, f
 
 /* ================================ SHOTS ================================= */
 /* 001–002: the mug */
-const Mug: React.FC<{x: number; y: number; broken?: number}> = ({x, y, broken = 0}) => (
+export const Mug: React.FC<{x: number; y: number; broken?: number}> = ({x, y, broken = 0}) => (
 	<g transform={`translate(${x},${y})`}>
 		<rect x={-34} y={-70} width={68} height={70} rx={12} fill="#f2f2f2" />
 		<rect x={-34} y={-70} width={68} height={14} rx={7} fill="#d94a3a" />
 		{broken < 0.02 ? <path d="M34,-52 q36,0 36,24 q0,24 -36,24" stroke="#f2f2f2" strokeWidth={12} fill="none" /> : null}
 	</g>
 );
-const Shards: React.FC<{x: number; y: number; k: number}> = ({x, y, k}) => (
+export const Shards: React.FC<{x: number; y: number; k: number}> = ({x, y, k}) => (
 	<g>
 		<ellipse cx={x} cy={y} rx={30 + 200 * k} ry={8 + 24 * k} fill="#a9743f" opacity={0.75} />
 		{Array.from({length: 11}).map((_, i) => {
@@ -307,7 +307,7 @@ export const S005: React.FC = () => {
 			</Layer>
 			<Layer depth={1}>
 				<Svg>
-					<Hero x={960} big uid="h5" pose={{...base, armF: [138, 26]}} fist="white" faceTurn={0} expr="worried" />
+					<Hero x={960} big uid="h5" pose={{...base, armF: [96, 76]}} fist="white" faceTurn={0} expr="worried" />
 					<g transform={`translate(${fx},${fy}) rotate(${Math.sin(t / 14) * 40 + 20})`}>
 						<path d="M0,-40 C26,-20 20,30 0,52 C-20,30 -26,-20 0,-40 Z" fill="#f2f2f2" />
 						<line x1={0} y1={-40} x2={0} y2={64} stroke="#c9c9d3" strokeWidth={4} />
@@ -490,7 +490,7 @@ export const S011: React.FC = () => {
 		</Scene>
 	);
 };
-const Notebook: React.FC<{x: number; y: number; t: number; sc?: number}> = ({x, y, t, sc = 1}) => (
+export const Notebook: React.FC<{x: number; y: number; t: number; sc?: number}> = ({x, y, t, sc = 1}) => (
 	<g transform={`translate(${x},${y}) rotate(-6) scale(${sc})`}>
 		<rect x={-170} y={-120} width={340} height={240} rx={14} fill="#2b4a8a" stroke="#0b1530" strokeWidth={6} />
 		<rect x={-130} y={-90} width={260} height={80} rx={8} fill="#fbf8ef" />
@@ -535,24 +535,30 @@ const NightStand: React.FC<{sunk: number; f: number}> = ({sunk, f}) => (
 		<rect x={1020} y={720} width={130} height={10} rx={4} fill="#c79a6e" />
 	</g>
 );
+const SEATX = 1230;
+const SEATY = 700;
+const seated = (f: number, lean: number, target: [number, number], k: number): Pose => {
+	const base: Pose = {...idle(f, 9), lean};
+	return reach(base, 'F', toLocal(target[0], target[1], SEATX, SEATY, HS, -1), k);
+};
 export const S013: React.FC = () => {
 	const {f, at} = useShot();
 	const t = f - at('013');
-	const fly = kk(t, 70, 110);
-	const fx = lerp(1640, 1100, fly);
-	const fy = lerp(650, 690, fly) - Math.sin(fly * Math.PI) * 120;
+	const up = t >= 62;
+	const lean = 35 * kk(t, 62, 82);
+	const k = kk(t, 66, 92);
+	const lie = t > 40 && t < 62 ? Math.sin(t * 1.8) * 6 : 0;
 	return (
-		<Scene from={camOn(1380, 640, 1.0)} to={camOn(1280, 660, 1.35)}>
+		<Scene from={camOn(1380, 650, 1.0)} to={camOn(1300, 660, 1.3)}>
 			<Layer depth={1.25}>
-				<Bedroom f={f} ring={t < 120} alarm={false} />
+				<Bedroom f={f} ring={t < 100} alarm={false} />
 			</Layer>
 			<Layer depth={1}>
 				<Svg>
-					<NightStand sunk={0} f={f} />
-					<Sleeper x={1560} y={706} s={HS} lift={t > 62 && t < 100 ? 20 : 0} expr={t > 50 ? 'wide' : 'sleepy'} />
-					<_Blanket f={f} lift={t > 62 && t < 100 ? 20 : 0} />
-					<path d={`M1650,668 Q${(1650 + fx) / 2},${Math.max(fy, 668) + 70} ${fx},${fy}`} stroke="#f2b21c" strokeWidth={26} fill="none" strokeLinecap="round" />
-					<Fist at={[fx, fy]} ang={fly > 0 ? lerp(-100, -60, fly) : -100} k={t > 56 ? 'white' : 'skin'} size={FK * 1.4} />
+					<NightStand sunk={kk(t, 92, 100)} f={f} />
+					{!up ? <Sleeper x={1560} y={706} s={HS} lift={Math.max(0, lie)} expr={t > 40 ? 'wide' : 'sleepy'} /> : null}
+					{up ? <Hero x={SEATX} seat={SEATY} facing={-1} big uid="h13" hideLegs pose={seated(f, lean, [1086, 690], k)} fist={k > 0.6 ? 'white' : 'skin'} expr="wide" faceTurn={0.3} /> : null}
+					<_Blanket f={f} lift={!up ? Math.max(0, lie) : 0} />
 				</Svg>
 			</Layer>
 		</Scene>
@@ -561,9 +567,8 @@ export const S013: React.FC = () => {
 export const S014: React.FC = () => {
 	const {f, at} = useShot();
 	const t = f - at('014');
-	const base = idle(f, 9);
 	return (
-		<Scene from={camOn(1120, 760, 1.45)} to={camOn(1090, 780, 1.9)}>
+		<Scene from={camOn(1180, 690, 1.35)} to={camOn(1150, 680, 1.6)}>
 			<Layer depth={1.25}>
 				<Bedroom f={f} alarm={false} />
 			</Layer>
@@ -571,9 +576,9 @@ export const S014: React.FC = () => {
 				<Svg>
 					<NightStand sunk={1} f={f} />
 					<rect x={1038} y={690} width={94} height={34} fill="#a9805a" />
-					<path d="M1086,715 Q1400,790 1840,700" stroke="#f2b21c" strokeWidth={26} fill="none" strokeLinecap="round" />
-					<Fist at={[1086, 715]} ang={-60} k="white" size={FK * 1.4} />
-					<Crack x={1022} y={806} len={126} ang={-8} n={1} t={t - 10} w={11} plate={[63, -130]} />
+					<Hero x={SEATX} seat={SEATY} facing={-1} big uid="h14" hideLegs pose={seated(f, 35, [1086, 690], 1)} fist="white" expr="wide" />
+					<_Blanket f={f} />
+					<Crack x={1022} y={806} len={126} ang={-8} n={1} t={t - 10} w={11} plate={[63, 56]} />
 				</Svg>
 			</Layer>
 		</Scene>
@@ -581,10 +586,10 @@ export const S014: React.FC = () => {
 };
 export const S015: React.FC = () => {
 	const {f, at} = useShot();
-	const t = f - at('015');
-	const sit = handTo({...SIT, head: 14}, 1480, HS, 1, [1560, 740], 0.0);
+	const base: Pose = {...idle(f, 9), lean: 8, head: 10};
+	const pose = reach(base, 'F', toLocal(1180, 600, SEATX, SEATY, HS, -1), 1);
 	return (
-		<Scene from={camOn(1300, 700, 1.1)} to={camOn(1340, 720, 1.5)}>
+		<Scene from={camOn(1250, 680, 1.1)} to={camOn(1230, 660, 1.4)}>
 			<Layer depth={1.25}>
 				<Bedroom f={f} alarm={false} />
 			</Layer>
@@ -592,8 +597,9 @@ export const S015: React.FC = () => {
 				<Svg>
 					<NightStand sunk={1} f={f} />
 					<rect x={1038} y={690} width={94} height={34} fill="#a9805a" />
-					<Crack x={1022} y={806} len={126} ang={-8} n={1} t={99} w={11} plate={[63, -130]} />
-					<Hero x={1480} seat={650} big uid="h15" pose={{...sit, armF: [55, 35]}} fist="white" expr="worried" faceTurn={0.1} />
+					<Crack x={1022} y={806} len={126} ang={-8} n={1} t={99} w={11} plate={[63, 56]} />
+					<Hero x={SEATX} seat={SEATY} facing={-1} big uid="h15" hideLegs pose={pose} fist="white" expr="worried" faceTurn={0.1} />
+					<_Blanket f={f} />
 				</Svg>
 			</Layer>
 		</Scene>
@@ -703,7 +709,7 @@ export const S019: React.FC = () => {
 			</Layer>
 			<Layer depth={1}>
 				<Svg>
-					<Hero x={820} big uid="h19" pose={handTo(base, 820, HS, 1, [lerp(880, 1010, push), 640], push)} fist="skin" expr="wide" />
+					<Hero x={820} big={push > 0.3} uid="h19" pose={handTo(base, 820, HS, 1, [lerp(880, 1010, push), 640], push)} fist="skin" expr="wide" />
 					<Actor who="gera" x={fly < 1 ? gx : 1480} floor={FL - (fly >= 1 ? 0 : Math.sin(fly * Math.PI) * 110) - (fly >= 1 && stand < 1 ? 66 : 0)} s={1.18} facing={-1} uid="g19" pose={stand > 0.3 ? idle(f, 3) : gpose} faceTurn={0.2} expr={stand > 0.3 ? 'angry' : 'wide'} shadow={fly >= 1} />
 					{Array.from({length: 8}).map((_, i) => {
 						const u = interpolate(t, [60 + i * 3, 100 + i * 3], [0, 1], clamp);
@@ -757,7 +763,7 @@ export const S021: React.FC = () => {
 };
 
 /* 022: Brownsville card */
-const MapCard: React.FC<{t: number}> = ({t}) => {
+export const MapCard: React.FC<{t: number}> = ({t}) => {
 	const k = interpolate(t, [0, 14], [0, 1], clamp);
 	const push = 1 + 0.22 * interpolate(t, [0, 200], [0, 1], {...clamp, easing: ease});
 	return (
@@ -1016,8 +1022,8 @@ export const S032: React.FC = () => {
 					<Crack x={1360} y={742} len={340} ang={-3} n={3} t={99} w={12} plate={[170, 70]} />
 					<Crack x={1420} y={935} len={420} ang={-2} n={4} t={99} w={12} plate={[210, -60]} />
 					<Hero x={1060} uid="h32" pose={idle(f, 5)} fist="skin" expr="sad" />
-					<Actor who="leha" x={1640} floor={FL} s={HS} facing={-1} uid="l32" pose={handTo(idle(f, 2), 1640, HS, -1, [1520, 700], 1)} faceTurn={0.2} />
-					<g transform="translate(1500,690) rotate(-6)">
+					<Actor who="leha" x={1830} floor={FL} s={HS} facing={-1} uid="l32" pose={handTo(idle(f, 2), 1830, HS, -1, [1700, 700], 1)} faceTurn={0.2} />
+					<g transform="translate(1700,690) rotate(-6)">
 						<rect x={-70} y={-48} width={140} height={96} rx={8} fill="#2b4a8a" stroke="#0b1530" strokeWidth={4} />
 						<circle cx={0} cy={0} r={lerp(0, 20, kk(t, 20, 40))} fill="#fbf8ef" />
 					</g>
@@ -1101,7 +1107,7 @@ export const S036: React.FC = () => {
 };
 
 /* 037–039: fact card 1984 and the safety margin */
-const Fact: React.FC<{t: number; push?: number; children?: React.ReactNode}> = ({t, push = 0.12, children}) => {
+export const Fact: React.FC<{t: number; push?: number; children?: React.ReactNode}> = ({t, push = 0.12, children}) => {
 	const kids = React.Children.toArray(children);
 	const isPlate = (c: any) => c && c.type === Plate;
 	const u = interpolate(t, [0, 200], [0, 1], {...clamp, easing: ease});
@@ -1177,7 +1183,7 @@ export const S039: React.FC = () => {
 
 export const Pending: React.FC = () => (
 	<AbsoluteFill style={{background: '#131736', alignItems: 'center', justifyContent: 'center'}}>
-		<div style={{fontFamily: FONT, fontWeight: 900, fontSize: 90, color: GOLD}}>Части 4–11: сцены впереди</div>
+		<div style={{fontFamily: FONT, fontWeight: 900, fontSize: 90, color: GOLD}}>Части 7–11: сцены впереди</div>
 	</AbsoluteFill>
 );
 
