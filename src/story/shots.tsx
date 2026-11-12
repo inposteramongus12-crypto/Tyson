@@ -1,22 +1,45 @@
-import React from 'react';
-import {Actor} from '../kit/core';
 import type {ShotDef} from '../kit/coverage';
-import {Layer, Stage, Svg, camOn} from '../kit/kit';
-import {FONT} from '../kit/ui';
-import {FL, HS} from './common';
+import * as P from './parts';
 
-/* Empty story: one placeholder shot with the hero from cast.ts so the project builds and renders.
-   Replace with real scenes (shots*.tsx) once the script and voice-over exist. */
-const Empty: React.FC = () => (
-	<Stage cam={camOn(960, 560, 1)} bg="#2a3550">
-		<Layer depth={1}>
-			<Svg>
-				<rect x={0} y={FL} width={1920} height={180} fill="#1a2238" />
-				<text x={960} y={300} textAnchor="middle" fontSize={96} fontFamily={FONT} fontWeight={800} fill="#fff">TYSON</text>
-				<Actor who="hero" x={960} floor={FL} s={HS} facing={1} faceTurn={0} uid="h0" />
-			</Svg>
-		</Layer>
-	</Stage>
-);
-
-export const SHOTS: ShotDef[] = [{at: '001', C: Empty}];
+/* Shots of parts 1–3 (lines 001–039). Each shot starts on its line; part 4 onward is a placeholder until those scenes exist. */
+export const SHOTS: ShotDef[] = [
+	{at: '001', C: P.S001},
+	{at: '002', C: P.S002},
+	{at: '003', C: P.S003},
+	{at: '004', C: P.S004},
+	{at: '005', C: P.S005, whip: true},
+	{at: '006', C: P.S006, own: true},
+	{at: '007', C: P.S007, own: true},
+	{at: '008', C: P.S008, whip: true},
+	{at: '009', C: P.S009, whip: true},
+	{at: '010', C: P.S010},
+	{at: '011', C: P.S011},
+	{at: '012', C: P.S012},
+	{at: '013', C: P.S013, whip: true},
+	{at: '014', C: P.S014},
+	{at: '015', C: P.S015},
+	{at: '016', C: P.S016, whip: true},
+	{at: '017', C: P.S017, whip: true},
+	{at: '018', C: P.S018},
+	{at: '019', C: P.S019},
+	{at: '020', C: P.S020},
+	{at: '021', C: P.S021},
+	{at: '022', C: P.S022, own: true},
+	{at: '023', C: P.S023, whip: true},
+	{at: '024', C: P.S024, whip: true},
+	{at: '025', C: P.S025},
+	{at: '026', C: P.S026},
+	{at: '027', C: P.S027},
+	{at: '028', C: P.S028},
+	{at: '029', C: P.S029},
+	{at: '030', C: P.S030},
+	{at: '031', C: P.S031},
+	{at: '032', C: P.S032},
+	{at: '033', C: P.S033, own: true},
+	{at: '035', C: P.S035, whip: true},
+	{at: '036', C: P.S036},
+	{at: '037', C: P.S037, own: true},
+	{at: '038', C: P.S038, own: true},
+	{at: '039', C: P.S039, own: true},
+	{at: '040', C: P.Pending, own: true},
+];

@@ -13,7 +13,7 @@ export const CAST: Record<string, CastMember> = {
 	// Лёха: синяя толстовка, рыжие вихры, очки (блокнот «ТЕОРИИ»)
 	leha: {sp: 'LEHA', color: '#2f6fd8', outfit: 'hoodie', hair: 'spiky', hairColor: '#c9672a', acc: ['glasses'], rim: '#e6f0ff', rimW: 2.4, shoe: '#f2f2f2'},
 	// Семён Ильич: старик, клетчатая кепка тёмно-красная, седые усы, серо-стальная куртка
-	coach: {sp: 'COACH', color: '#6b7f8e', outfit: 'coat', hair: 'cap', hairColor: '#8c2a2a', acc: ['mustache'], age: 1, rim: '#eef4ff', rimW: 2.4, shoe: '#2b2f3a'},
+	coach: {sp: 'COACH', color: '#6b7f8e', outfit: 'coat', hair: 'cap', hairColor: '#8c2a2a', acc: ['mustache'], rim: '#eef4ff', rimW: 2.4, shoe: '#2b2f3a'},
 	// мама: фиолетовый халат, каре
 	mama: {sp: 'MAMA', color: '#8e5cd9', outfit: 'gown', hair: 'bob', rim: '#f0e4ff', rimW: 2.4, shoe: '#2c2540'},
 	// Гера из третьего подъезда: коричневая футболка, бритая голова
@@ -27,5 +27,5 @@ export const CAST: Record<string, CastMember> = {
 	// свита: три костюма разного цвета, у каждого свой знак
 	svita1: {color: '#e0449b', outfit: 'suit', hair: 'bun', hairColor: '#4a3426', acc: ['glasses'], rim: '#ffe0f0', rimW: 2.4, shoe: '#2b1d24'},
 	svita2: {color: '#8c1d40', outfit: 'suit', hair: 'cap', hairColor: '#e8e8ee', acc: ['mustache'], rim: '#ffd0dc', rimW: 2.4, shoe: '#111'},
-	svita3: {color: '#2aa876', outfit: 'suit', hair: 'spiky', hairColor: '#5a3a22', rim: '#e0fff0', rimW: 2.4, shoe: '#111'},
+	svita3: {color: '#2aa876', outfit: 'suit', hair: 'short', hairColor: '#5a3a22', rim: '#e0fff0', rimW: 2.4, shoe: '#111'},
 };

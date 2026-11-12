@@ -76,6 +76,8 @@ type Props = {
 	armOver?: boolean;
 	// replaces the small dark hands with a large fist whose knuckle colour reads at medium shot
 	fist?: Knuckles;
+	// fist glyph size multiplier (default 1.3); raise it on medium shots so the knuckle colour reads
+	fistK?: number;
 };
 
 const Limb: React.FC<{pts: V[]; w: number; c: string; hi?: string; hiSide?: number}> = ({pts, w, c, hi, hiSide = -1}) => {
@@ -173,14 +175,14 @@ const HeadShape: React.FC<{hair: Hair; hairColor: string; front: boolean}> = ({h
 
 /* Big fist glyph at the end of a forearm. Local +y runs along the forearm (down), knuckles face +y.
    white: clenched, bloodless knuckles; skin: normal skin tone. Outline + highlight keep the colour readable at medium shot. */
-const Fist: React.FC<{at: V; ang: number; k: Knuckles}> = ({at, ang, k}) => {
+export const Fist: React.FC<{at: V; ang: number; k: Knuckles; size?: number}> = ({at, ang, k, size = 1.3}) => {
 	const white = k === 'white';
-	const base = white ? '#f6f7fb' : '#e9a373';
-	const edge = white ? '#8d97ad' : '#a85a32';
-	const kn = white ? '#ffffff' : '#f0b189';
-	const shade = white ? '#c9d0df' : '#cf8658';
+	const base = white ? '#fdf6e3' : '#e9a373';
+	const edge = '#a85a32';
+	const kn = white ? '#fffbf0' : '#f0b189';
+	const shade = white ? '#f1e4c4' : '#cf8658';
 	return (
-		<g transform={`translate(${at[0]},${at[1]}) rotate(${-ang}) scale(1.3)`}>
+		<g transform={`translate(${at[0]},${at[1]}) rotate(${-ang}) scale(${size})`}>
 			<rect x={-17} y={-4} width={34} height={34} rx={12} fill={base} stroke={edge} strokeWidth={3} />
 			<rect x={-17} y={14} width={34} height={14} rx={7} fill={shade} opacity={0.55} />
 			{[-12.5, -4.2, 4.2, 12.5].map((cx) => (
@@ -310,7 +312,7 @@ export const Stickman: React.FC<Props> = (p) => {
 					</>
 				)}
 				<Limb pts={aB} w={23} c={back} />
-				{p.fist ? <Fist at={aB[2]} ang={pose.armB[0] + pose.armB[1]} k={p.fist} /> : <circle cx={aB[2][0]} cy={aB[2][1]} r={9.5} fill="#0b0b0d" />}
+				{p.fist ? <Fist at={aB[2]} ang={pose.armB[0] + pose.armB[1]} k={p.fist} size={p.fistK} /> : <circle cx={aB[2][0]} cy={aB[2][1]} r={9.5} fill="#0b0b0d" />}
 				{/* front leg */}
 				{p.hideLegs ? null : (
 					<>
@@ -386,7 +388,7 @@ export const Stickman: React.FC<Props> = (p) => {
 						);
 					return null;
 				})()}
-				{p.fist ? <Fist at={aF[2]} ang={pose.armF[0] + pose.armF[1]} k={p.fist} /> : <circle cx={aF[2][0]} cy={aF[2][1]} r={10} fill="#0b0b0d" />}
+				{p.fist ? <Fist at={aF[2]} ang={pose.armF[0] + pose.armF[1]} k={p.fist} size={p.fistK} /> : <circle cx={aF[2][0]} cy={aF[2][1]} r={10} fill="#0b0b0d" />}
 				{/* head */}
 				<line x1={add(hip, up, T - 10)[0]} y1={add(hip, up, T - 10)[1]} x2={headC[0]} y2={headC[1]} stroke="#000" strokeWidth={12} />
 				<g transform={`translate(${headC[0]},${headC[1]}) rotate(${pose.head + lean * 0.25})`}>
@@ -425,7 +427,12 @@ export const Stickman: React.FC<Props> = (p) => {
 						<line x1={eL[0] + erx + 4} y1={eL[1]} x2={eR[0] - erx - 4} y2={eR[1]} />
 					</g>
 				) : null}
-				{acc.includes('mustache') ? <path d={`M${mx - 13},${17} q6,-7 13,-2 q7,-5 13,2 q-6,3 -13,1 q-7,2 -13,-1 z`} fill="#c9c9cf" /> : null}
+				{acc.includes('mustache') ? (
+					<g stroke="#e4e4ea" strokeWidth={6.5} strokeLinecap="round">
+						<line x1={mx - 18} y1={15} x2={mx - 3} y2={13} />
+						<line x1={mx + 3} y1={13} x2={mx + 18} y2={15} />
+					</g>
+				) : null}
 				{brow(eL, -1)}
 				{brow(eR, 1)}
 				{(p.talk ?? 0) > 0.06 ? <ellipse cx={mx} cy={24} rx={6 + 2 * (p.talk ?? 0)} ry={2.5 + 8 * Math.min(1, p.talk ?? 0)} fill="#fff" /> : mouthEl}
@@ -435,7 +442,7 @@ export const Stickman: React.FC<Props> = (p) => {
 					<Limb pts={aF} w={24 + rimW * 2} c={rim} />
 					<Limb pts={aF} w={24} c={color} hi={hi} hiSide={-1} />
 					<circle cx={aF[2][0]} cy={aF[2][1]} r={10 + rimW} fill={rim} />
-					{p.fist ? <Fist at={aF[2]} ang={pose.armF[0] + pose.armF[1]} k={p.fist} /> : <circle cx={aF[2][0]} cy={aF[2][1]} r={10} fill="#0b0b0d" />}
+					{p.fist ? <Fist at={aF[2]} ang={pose.armF[0] + pose.armF[1]} k={p.fist} size={p.fistK} /> : <circle cx={aF[2][0]} cy={aF[2][1]} r={10} fill="#0b0b0d" />}
 				</g>
 			) : null}
 		</g>

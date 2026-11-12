@@ -51,7 +51,7 @@ export const Win: React.FC<{x: number; y: number; w: number; h: number; sky: [st
 	</g>
 );
 
-const Poster: React.FC<{x: number; y: number; w: number; h: number; c: string; children?: React.ReactNode; tilt?: number}> = ({x, y, w, h, c, children, tilt = 0}) => (
+export const Poster: React.FC<{x: number; y: number; w: number; h: number; c: string; children?: React.ReactNode; tilt?: number}> = ({x, y, w, h, c, children, tilt = 0}) => (
 	<g transform={`rotate(${tilt} ${x + w / 2} ${y + h / 2})`}>
 		<rect x={x} y={y} width={w} height={h} fill={c} />
 		<rect x={x} y={y} width={w} height={h} fill="none" stroke="#000" opacity={0.12} strokeWidth={4} />
@@ -61,7 +61,7 @@ const Poster: React.FC<{x: number; y: number; w: number; h: number; c: string; c
 	</g>
 );
 
-const Floor: React.FC<{y: number; c: string; plank?: boolean; tiles?: boolean}> = ({y, c, plank, tiles}) => (
+export const Floor: React.FC<{y: number; c: string; plank?: boolean; tiles?: boolean}> = ({y, c, plank, tiles}) => (
 	<g>
 		<rect x={-400} y={y} width={2800} height={600} fill={c} />
 		<rect x={-400} y={y} width={2800} height={10} fill={darken(c, 0.25)} />
@@ -74,7 +74,7 @@ const Floor: React.FC<{y: number; c: string; plank?: boolean; tiles?: boolean}> 
 	</g>
 );
 
-const Wall: React.FC<{top: string; bot: string; id: string; trim?: string; trimY?: number}> = ({top, bot, id, trim, trimY = 640}) => (
+export const Wall: React.FC<{top: string; bot: string; id: string; trim?: string; trimY?: number}> = ({top, bot, id, trim, trimY = 640}) => (
 	<g>
 		<defs>
 			<Grad id={id} stops={[[0, top], [1, bot]]} />
@@ -95,7 +95,7 @@ export const Lamp: React.FC<{x: number; y: number; on?: number; c?: string}> = (
 
 /* --------------------------------- bedroom ---------------------------------- */
 
-export const Bedroom: React.FC<{night?: boolean; f: number; ring?: boolean}> = ({night, f, ring}) => (
+export const Bedroom: React.FC<{night?: boolean; f: number; ring?: boolean; alarm?: boolean}> = ({night, f, ring, alarm = true}) => (
 	<Svg>
 		<Wall id={night ? 'br-wn' : 'br-wd'} top={night ? '#1d2550' : '#a9cfe0'} bot={night ? '#2a3366' : '#d8e8e6'} trim={night ? '#141a3d' : '#9ec2c9'} trimY={720} />
 		<Win id={night ? 'br-sn' : 'br-sd'} x={760} y={170} w={420} h={330} sky={night ? ['#0b1030', '#2a2f63'] : ['#ffb27a', '#ffe1a8']} night={night} curtains={night ? '#3a4380' : '#f2b21c'} />
@@ -131,6 +131,7 @@ export const Bedroom: React.FC<{night?: boolean; f: number; ring?: boolean}> = (
 		<rect x={1740} y={624} width={140} height={60} rx={26} fill="#fff" />
 		{/* nightstand + alarm */}
 		<rect x={1020} y={720} width={130} height={170} rx={8} fill={night ? '#3a3050' : '#a9805a'} />
+		{alarm ? (
 		<g transform={`translate(1085,${690}) rotate(${ring ? Math.sin(f * 2.6) * 9 : 0})`}>
 			<circle r={34} fill="#d94a3a" />
 			<circle r={26} fill="#fff8ec" />
@@ -139,7 +140,8 @@ export const Bedroom: React.FC<{night?: boolean; f: number; ring?: boolean}> = (
 			<circle cx={-26} cy={-30} r={12} fill="#c7c9d3" />
 			<circle cx={26} cy={-30} r={12} fill="#c7c9d3" />
 		</g>
-		{ring ? (
+		) : null}
+		{ring && alarm ? (
 			<g stroke="#ffd34a" strokeWidth={5} strokeLinecap="round" opacity={0.5 + 0.5 * Math.sin(f * 1.3)}>
 				<path d="M1030,640 l-18,-14 M1022,668 l-24,-2 M1140,640 l18,-14 M1148,668 l24,-2" />
 			</g>
