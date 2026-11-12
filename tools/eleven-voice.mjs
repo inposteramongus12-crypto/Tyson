@@ -1,11 +1,12 @@
 // Voices src/story/lines.json with ElevenLabs -> public/vo/<id>.mp3 (same file names as voice-free).
-//   node tools/eleven-voice.mjs --plan              count characters still to voice, show credits on both keys, no voicing
+//   node tools/eleven-voice.mjs --plan              count characters still to voice, show credits on all keys, no voicing
 //   node tools/eleven-voice.mjs [--only 077,078]     voice (skips lines already voiced with the same text)
-//   node tools/eleven-voice.mjs ... --key1-only      never switch to the second key
+//   node tools/eleven-voice.mjs ... --key1-only      never switch to the other keys
+//   node tools/eleven-voice.mjs ... --skip 1,3      never use these key numbers
 //   node tools/eleven-voice.mjs ... --force          re-voice even if already done
 // Voices come from src/story/voices.json: {"N": {"name": "George", "eleven": "<voice_id>"}, ...}.
-// Keys only from the environment (ELEVENLABS_API_KEY, ELEVENLABS_API_KEY_2); they are never printed or stored.
-// Before every line the remaining credits of key 1 are checked; if they do not cover the line, key 2 is used.
+// Keys only from the environment (ELEVENLABS_API_KEY, ELEVENLABS_API_KEY_2, ELEVENLABS_API_KEY_3); they are never printed or stored.
+// Before every line the remaining credits of key 1 are checked; if they do not cover the line, the next key (2, then 3) is used.
 // The subscription counter on ElevenLabs lags behind, so the remaining credits are also tracked locally
 // (credits at start minus characters sent) and the smaller of the two numbers is trusted.
 import fs from 'node:fs';
@@ -20,6 +21,7 @@ const args = process.argv.slice(2);
 const plan = args.includes('--plan');
 const force = args.includes('--force');
 const key1Only = args.includes('--key1-only');
+const skip = args.includes('--skip') ? args[args.indexOf('--skip') + 1].split(',').map(Number) : [];
 const only = args.includes('--only') ? args[args.indexOf('--only') + 1].split(',') : [];
 const root = process.cwd();
 const lines = JSON.parse(fs.readFileSync(path.join(root, 'src/story/lines.json'), 'utf8'));
@@ -29,9 +31,9 @@ fs.mkdirSync(outDir, {recursive: true});
 const madeFile = path.join(outDir, '.made-eleven.json');
 const made = fs.existsSync(madeFile) ? JSON.parse(fs.readFileSync(madeFile, 'utf8')) : {};
 
-const KEYS = [process.env.ELEVENLABS_API_KEY, key1Only ? undefined : process.env.ELEVENLABS_API_KEY_2]
+const KEYS = [process.env.ELEVENLABS_API_KEY, key1Only ? undefined : process.env.ELEVENLABS_API_KEY_2, key1Only ? undefined : process.env.ELEVENLABS_API_KEY_3]
 	.map((k, i) => (k ? {n: i + 1, k, sent: 0, start: null} : null))
-	.filter(Boolean);
+	.filter((k) => k && !skip.includes(k.n));
 if (!KEYS.length) throw new Error('ELEVENLABS_API_KEY is not set');
 // local ledger survives between runs (key number only, never the key): the API counter lags by minutes
 const ledgerFile = path.join(outDir, '.eleven-ledger.json');
@@ -39,7 +41,7 @@ const ledger = fs.existsSync(ledgerFile) ? JSON.parse(fs.readFileSync(ledgerFile
 const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
 const left = async (key) => {
 	let r;
-	for (let t = 0; t < 4; t++) {
+	for (let t = 0; t < 6; t++) {
 		r = await fetch('https://api.elevenlabs.io/v1/user/subscription', {headers: {'xi-api-key': key.k}});
 		if (r.status !== 429) break;
 		await sleep(2000 * 2 ** t);
