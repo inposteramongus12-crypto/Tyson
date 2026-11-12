@@ -5,8 +5,8 @@
 //   node tools/eleven-voice.mjs ... --skip 1,3      never use these key numbers
 //   node tools/eleven-voice.mjs ... --force          re-voice even if already done
 // Voices come from src/story/voices.json: {"N": {"name": "George", "eleven": "<voice_id>"}, ...}.
-// Keys only from the environment (ELEVENLABS_API_KEY, ELEVENLABS_API_KEY_2, ELEVENLABS_API_KEY_3); they are never printed or stored.
-// Before every line the remaining credits of key 1 are checked; if they do not cover the line, the next key (2, then 3) is used.
+// Keys only from the environment (ELEVENLABS_API_KEY, ELEVENLABS_API_KEY_2 ... ELEVENLABS_API_KEY_6); they are never printed or stored.
+// Before every line the remaining credits of key 1 are checked; if they do not cover the line, the next key (2, then 3 ... up to 6) is used.
 // The subscription counter on ElevenLabs lags behind, so the remaining credits are also tracked locally
 // (credits at start minus characters sent) and the smaller of the two numbers is trusted.
 import fs from 'node:fs';
@@ -31,7 +31,7 @@ fs.mkdirSync(outDir, {recursive: true});
 const madeFile = path.join(outDir, '.made-eleven.json');
 const made = fs.existsSync(madeFile) ? JSON.parse(fs.readFileSync(madeFile, 'utf8')) : {};
 
-const KEYS = [process.env.ELEVENLABS_API_KEY, key1Only ? undefined : process.env.ELEVENLABS_API_KEY_2, key1Only ? undefined : process.env.ELEVENLABS_API_KEY_3]
+const KEYS = [process.env.ELEVENLABS_API_KEY, ...[2, 3, 4, 5, 6].map((n) => (key1Only ? undefined : process.env['ELEVENLABS_API_KEY_' + n]))]
 	.map((k, i) => (k ? {n: i + 1, k, sent: 0, start: null} : null))
 	.filter((k) => k && !skip.includes(k.n));
 if (!KEYS.length) throw new Error('ELEVENLABS_API_KEY is not set');
