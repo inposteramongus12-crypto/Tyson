@@ -253,6 +253,77 @@ const buzz = (t0, t1, amp) => {
 	}
 };
 
+/* breakage foley: crunch (dry crack of wood/plastic/concrete), tink (glass), gong, smack (egg on a hard surface) */
+const crunch = (t0, amp = 0.35) => {
+	const i0 = Math.floor(t0 * SR);
+	const b = new BP(), lp = new LP();
+	for (let j = 0; j < 0.22 * SR; j++) {
+		const tt = j / SR;
+		const burst = (Math.floor(tt * 90) % 3 === 0 ? 1 : 0.35) * Math.exp(-tt / 0.06);
+		put(i0 + j, (b.f(noise(), 1700, 0.9) * 2.4 * burst + lp.f(noise(), 260) * 1.2 * Math.exp(-tt / 0.03) + Math.sin(2 * Math.PI * 95 * tt) * Math.exp(-tt / 0.05) * 0.8) * amp, 0, 0.12);
+	}
+};
+const tink = (t0, amp = 0.2) => {
+	const i0 = Math.floor(t0 * SR);
+	const fr = [2637, 3951, 5274, 6720];
+	for (let j = 0; j < 0.9 * SR; j++) {
+		const tt = j / SR;
+		let v = 0;
+		fr.forEach((f, k) => { v += Math.sin(2 * Math.PI * f * (1 + 0.003 * k) * tt) * Math.exp(-tt / (0.32 - k * 0.06)) / (k + 1); });
+		put(i0 + j, v * amp * Math.min(1, j / 20), 0.15, 0.45);
+	}
+};
+const gong = (t0, amp = 0.25) => {
+	const i0 = Math.floor(t0 * SR);
+	const part = [[1, 1], [1.51, 0.7], [2.01, 0.6], [2.76, 0.45], [4.1, 0.25], [5.43, 0.15]];
+	for (let j = 0; j < 4.2 * SR; j++) {
+		const tt = j / SR;
+		let v = 0;
+		part.forEach(([r, a], k) => { v += Math.sin(2 * Math.PI * 130 * r * tt + Math.sin(tt * 5 + k) * 0.4) * a * Math.exp(-tt / (2.2 - k * 0.25)); });
+		put(i0 + j, v * amp * 0.5 * Math.min(1, j / 150), 0, 0.5);
+	}
+	smackNoise(t0, amp * 0.5);
+};
+const smackNoise = (t0, amp) => {
+	const i0 = Math.floor(t0 * SR);
+	const b = new BP();
+	for (let j = 0; j < 0.04 * SR; j++) put(i0 + j, b.f(noise(), 2400, 0.8) * Math.exp(-(j / SR) / 0.008) * amp * 3, 0, 0.1);
+};
+const smack = (t0, amp = 0.5) => {
+	const i0 = Math.floor(t0 * SR);
+	const b = new BP(), c = new BP();
+	for (let j = 0; j < 0.3 * SR; j++) {
+		const tt = j / SR;
+		const wet = c.f(noise(), 380 + 120 * Math.sin(tt * 90), 1.1) * Math.exp(-tt / 0.07) * (tt > 0.02 ? 1 : 0);
+		put(i0 + j, (b.f(noise(), 900, 0.7) * 3 * Math.exp(-tt / 0.012) + Math.sin(2 * Math.PI * 70 * tt) * Math.exp(-tt / 0.05) * 1.2 + wet * 1.6) * amp, 0, 0.15);
+	}
+};
+const peep = (t0, amp = 0.05) => {
+	const i0 = Math.floor(t0 * SR);
+	for (let j = 0; j < 0.14 * SR; j++) {
+		const tt = j / SR;
+		put(i0 + j, Math.sin(2 * Math.PI * (3600 + 1200 * Math.sin(tt * 38)) * tt) * Math.exp(-tt * 14) * amp, 0.1, 0.25);
+	}
+};
+/* silence: everything already in the bed is faded to nothing in [t0, t1]; the warm return is added afterwards */
+const muteWindow = (t0, t1, fade = 0.25) => {
+	const a = Math.floor((t0 - fade) * SR), b = Math.floor(t1 * SR);
+	for (let i = Math.max(0, a); i < Math.min(N, b); i++) {
+		const g = i < t0 * SR ? 1 - (i - a) / (fade * SR) : 0;
+		L[i] *= g; R[i] *= g; REV[i] *= g;
+	}
+};
+const warmReturn = (t0, dur = 2.6, gain = 0.05) => {
+	const i0 = Math.floor(t0 * SR), i1 = Math.min(N, Math.floor((t0 + dur + 4) * SR));
+	const a = new LP(), b = new LP();
+	for (let i = i0; i < i1; i++) {
+		const t = i / SR;
+		const env = sm(t, t0, t0 + dur) * (1 - sm(t, t0 + dur + 2, t0 + dur + 4) * 0.4) * gain;
+		const hum = (Math.sin(2 * Math.PI * 110 * t) + 0.5 * Math.sin(2 * Math.PI * 165 * t) + 0.3 * Math.sin(2 * Math.PI * 220 * t)) * 0.12;
+		put(i, (a.f(noise(), 260) * 0.6 + b.f(noise(), 700) * 0.15 + hum) * env, 0, 0.3);
+	}
+};
+
 /* ------------------------------ cues from sound.json ------------------------------
    {
      "ambience": [{"from": "001", "to": "006", "kind": "room", "gain": 0.05}],   kinds: room hall night fridge crowd street rain wind sea
@@ -260,7 +331,9 @@ const buzz = (t0, t1, amp) => {
      "sfx":      [{"at": "004", "off": 12, "type": "click"}]                     at = line id prefix, off = frames into that line
    }
    sfx types: click (counter tick + chime), switch (рубильник/выключатель), splash, pop, ding, whoosh, whooshUp, swoosh, stamp, clap, steps (dur s), buzz (dur),
-   heartbeat (dur), alarm (dur), siren (dur), crackle (dur), ring (dur), thud, chat, sent, birds (dur).
+   heartbeat (dur), alarm (dur), siren (dur), crackle (dur), ring (dur), thud, chat, sent, birds (dur),
+   crunch (хрусть), tink (дзынь), break (хрусть + дзынь), gong, smack (шлёп яйца), peep (писк птенца).
+   "silence": [{"from": "140", "to": "141"}] — вся подложка (эмбиент, эффекты, вжухи) гаснет с lead (0,4 с) до начала `to` + until (0,4 с), потом тёплый возврат.
    Auto cues (src/story/auto-cues.json, written by check-plans): whooshes on location changes
    and a click on every counter change — they are added here automatically. */
 const tAt = (lineId, off = 0) => (lineId === 'start' ? off / FPS : lineId === 'end' ? DUR - 0.05 : ts(String(lineId).slice(0, 3), off));
@@ -333,6 +406,7 @@ for (const m of SPEC.music ?? []) {
 const autoFile = 'src/story/auto-cues.json';
 const AUTO = fs.existsSync(autoFile) && TL_FILE.endsWith('/timeline.json') ? JSON.parse(fs.readFileSync(autoFile, 'utf8')) : {whips: [], counter: []};
 for (const f of AUTO.whips ?? []) whoosh(f / FPS - 0.2, 0.4, 3200, 500, 0.12);
+
 for (const c of AUTO.counter ?? []) {
 	click(c.at / FPS, 0.3);
 	if (c.roll > 20) for (let i = 0; i < Math.min(20, c.roll / 3); i++) click(c.at / FPS + i * 0.11, 0.1);
@@ -363,8 +437,21 @@ for (const s of SPEC.sfx ?? []) {
 		case 'crackle': crackle(t, t + d, a ?? 0.05); break;
 		case 'ring': ring(t, t + d, a ?? 0.06); break;
 		case 'birds': birds(t, t + d); break;
+		case 'crunch': crunch(t, a ?? 0.3); break;
+		case 'tink': tink(t, a ?? 0.2); break;
+		case 'break': crunch(t, a ?? 0.3); tink(t + 0.05, (a ?? 0.3) * 0.6); break;
+		case 'gong': gong(t, a ?? 0.25); break;
+		case 'smack': smack(t, a ?? 0.45); break;
+		case 'peep': peep(t, a ?? 0.05); break;
 		default: console.warn('unknown sfx type', s.type);
 	}
+}
+
+for (const q of SPEC.silence ?? []) {
+	const t0 = tAt(q.from) - (q.lead ?? 0.4), t1 = tAt(q.to) + (q.until ?? 0.4);
+	muteWindow(t0, t1, q.fade ?? 0.25);
+	warmReturn(t1 - 0.2, q.ret ?? 2.6, q.gain ?? 0.05);
+	birds(t1 + 0.4, t1 + 3);
 }
 
 /* ---------------------------------- mixdown ---------------------------------- */
