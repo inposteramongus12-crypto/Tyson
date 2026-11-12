@@ -15,7 +15,7 @@ import {Crack, FK, GOLD, Hero, Mug, PLATE, Plate, Roof, Scene, Shards, Yard, han
    knuckle colour is the point (egg stopped a centimetre away, the bottle), a hand always grows from a shoulder or the frame edge. */
 
 /* ----------------------------- the basement gym ----------------------------- */
-const Cap: React.FC<{x: number; y: number; s?: number; rot?: number}> = ({x, y, s = 1, rot = 0}) => (
+export const Cap: React.FC<{x: number; y: number; s?: number; rot?: number}> = ({x, y, s = 1, rot = 0}) => (
 	<g transform={`translate(${x},${y}) rotate(${rot}) scale(${s})`}>
 		<path d="M-36,0 C-36,-40 36,-40 36,0 Z" fill="#8c2a2a" stroke="#4a1414" strokeWidth={3} />
 		<path d="M16,-2 Q66,-8 70,8 L14,8 Z" fill="#6b1f1f" stroke="#4a1414" strokeWidth={3} />
@@ -40,7 +40,7 @@ const Towel: React.FC<{x: number; y: number; rot?: number; c?: string}> = ({x, y
 		<rect x={-52} y={-4} width={104} height={9} fill={c} />
 	</g>
 );
-const Mitt: React.FC<{r?: number}> = ({r = 0}) => (
+export const Mitt: React.FC<{r?: number}> = ({r = 0}) => (
 	<g transform={`rotate(${r})`}>
 		<rect x={-14} y={-36} width={60} height={72} rx={16} fill="#d94a3a" stroke="#7a1f18" strokeWidth={4} />
 		<circle cx={16} cy={0} r={13} fill="none" stroke="#7a1f18" strokeWidth={3} />
@@ -94,8 +94,8 @@ export const Gym: React.FC<{f: number; handle?: boolean; cap?: boolean; chair?: 
 	</Svg>
 );
 
-const stance = (f: number, seed: number, lean = 6): Pose => ({...idle(f, seed), lean});
-const coachAt = (f: number, x: number, facing: 1 | -1 = -1, pose?: Pose, extra: Record<string, any> = {}) => (
+export const stance = (f: number, seed: number, lean = 6): Pose => ({...idle(f, seed), lean});
+export const coachAt = (f: number, x: number, facing: 1 | -1 = -1, pose?: Pose, extra: Record<string, any> = {}) => (
 	<Actor who="coach" x={x} floor={FL} s={HS} facing={facing} uid={'co' + Math.round(x)} pose={pose ?? idle(f, 4)} faceTurn={0.3} {...extra} />
 );
 
@@ -223,7 +223,7 @@ export const S044: React.FC = () => {
 export const S045: React.FC = () => {
 	const {f, at} = useShot();
 	const t = f - at('045');
-	const seg = Math.min(2, Math.floor(t / 44));
+	const seg = Math.max(0, Math.min(2, Math.floor(t / 44)));
 	const u = t % 44;
 	const jump = Math.abs(Math.sin(u / 2.4)) * 40;
 	const swing = Math.sin(u / 3) * 16;
@@ -286,7 +286,7 @@ export const S046: React.FC = () => {
 };
 
 /* shoulders raised to the ears (blobs beside the neck) with optional towels */
-const Shoulders: React.FC<{x: number; k: number; towel?: number}> = ({x, k, towel = 0}) => {
+export const Shoulders: React.FC<{x: number; k: number; towel?: number}> = ({x, k, towel = 0}) => {
 	const dy = lerp(36, 0, k);
 	return (
 		<g transform={`translate(${x},${hip(HS)}) scale(${HS})`}>
@@ -393,17 +393,17 @@ export const S050: React.FC = () => {
 };
 
 /* egg scenes: pad at x 1560, hero at 1330 */
-const EGGX = 1560;
-const EGGY = 566;
-const HX = 1330;
+export const EGGX = 1560;
+export const EGGY = 566;
+export const HX = 1330;
 const eggFist = (f: number, k: number, stopGap = 0): Pose => reach({...idle(f, 2), lean: 6 + 8 * k}, 'F', toLocal(EGGX - 98 - stopGap, EGGY + 18, HX, hip(HS), HS, 1), k);
-const Box: React.FC<{n: number}> = ({n}) => (
+export const Box: React.FC<{n: number}> = ({n}) => (
 	<g transform="translate(1180,860)">
 		<rect x={-70} y={-30} width={140} height={34} rx={6} fill="#c9a06a" stroke="#6a4a2a" strokeWidth={3} />
 		{Array.from({length: n}).map((_, i) => <Egg key={i} x={-40 + i * 40} y={-48} s={0.72} />)}
 	</g>
 );
-const Bucket: React.FC<{x: number}> = ({x}) => (
+export const Bucket: React.FC<{x: number}> = ({x}) => (
 	<g transform={`translate(${x},900)`}>
 		<path d="M-40,-80 L40,-80 L32,0 L-32,0 Z" fill="#7a8794" stroke="#47506a" strokeWidth={4} />
 		<ellipse cx={0} cy={-80} rx={40} ry={9} fill="#9fc0d6" />
@@ -530,14 +530,14 @@ export const S057: React.FC = () => {
 	);
 };
 
-const Palm: React.FC<{x: number; y: number; ang?: number}> = ({x, y, ang = 0}) => (
+export const Palm: React.FC<{x: number; y: number; ang?: number}> = ({x, y, ang = 0}) => (
 	<g transform={`translate(${x},${y}) rotate(${ang})`}>
 		<rect x={-44} y={-10} width={92} height={20} rx={10} fill="#e9a373" stroke="#a85a32" strokeWidth={4} />
 		{[0, 1, 2, 3].map((i) => <rect key={i} x={20 + i * 8 - 4} y={-8 + i} width={34} height={8} rx={4} fill="#e9a373" stroke="#a85a32" strokeWidth={3} />)}
 	</g>
 );
-const palmPose = (f: number, y: number): Pose => reach({...idle(f, 2), lean: 0}, 'F', toLocal(HX + 100, y, HX, hip(HS), HS, 1), 1);
-const palmAt = (f: number, y: number) => {
+export const palmPose = (f: number, y: number): Pose => reach({...idle(f, 2), lean: 0}, 'F', toLocal(HX + 100, y, HX, hip(HS), HS, 1), 1);
+export const palmAt = (f: number, y: number) => {
 	const [px, py] = frontHand(palmPose(f, y), HX, hip(HS), HS, 1);
 	return [px, py] as const;
 };
@@ -812,7 +812,7 @@ export const S069: React.FC = () => {
 						<rect x={-56} y={-112} width={112} height={200} rx={8} fill="#3d6fd6" />
 					</g>
 					<rect x={-70} y={-130} width={140} height={260} rx={18} fill="#2b2f3a" stroke="#0b0d1e" strokeWidth={5} transform={`translate(${fold * 140},0) scale(${1 - fold * 0.0},1)`} opacity={fold} />
-					<Crack x={-60} y={-60} len={150} ang={32} n={6} t={t - 50} w={10} plate={[170, 140]} />
+					<Crack x={-60} y={-60} len={150} ang={32} n={6} t={t - 50} w={10} plate={[170, 140]} ox={1480} oy={660} />
 				</g>
 			</g>}
 		/>
@@ -861,7 +861,7 @@ export const S071: React.FC = () => {
 				<g transform="translate(1440,650)">
 					<path d={`M-160,0 Q-60,${-40 * knot} 0,0 T${160 - 90 * knot},${-30 * knot}`} stroke="#c9cfdd" strokeWidth={22} fill="none" strokeLinecap="round" />
 					<circle cx={-170} cy={0} r={30} fill="#c9cfdd" />
-					<Crack x={-90} y={-8} len={150} ang={-8} n={8} t={t - 50} w={10} plate={[80, -90]} />
+					<Crack x={-90} y={-8} len={150} ang={-8} n={8} t={t - 50} w={10} plate={[80, -90]} ox={1440} oy={650} />
 				</g>
 				<Hero x={1100} big fist="white" uid="h71" pose={handTo(idle(f, 2), 1100, HS, 1, [1250, 660], 1)} expr="worried" />
 				<Actor who="mama" x={lerp(1840, 1700, walk)} floor={FL} s={HS} facing={-1} uid="m71" pose={handTo(idle(f, 5), lerp(1840, 1700, walk), HS, -1, [1580, 700], walk)} faceTurn={0.2} handItem={walk > 0.8 ? <rect x={0} y={-30} width={10} height={70} rx={4} fill="#e86aa0" /> : undefined} />

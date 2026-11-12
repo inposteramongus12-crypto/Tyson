@@ -2,8 +2,9 @@ import type {ShotDef} from '../kit/coverage';
 import * as P from './parts';
 import * as Q from './parts2';
 import * as R from './parts3';
+import * as T from './parts4';
 
-/* Shots of parts 1–8 (lines 001–111). Each shot starts on its line; part 9 onward is a placeholder until those scenes exist. */
+/* Shots of parts 1–10 (lines 001–145). Each shot starts on its line; part 11 is a placeholder until those scenes exist. */
 export const SHOTS: ShotDef[] = [
 	{at: '001', C: P.S001},
 	{at: '002', C: P.S002},
@@ -115,5 +116,39 @@ export const SHOTS: ShotDef[] = [
 	{at: '109', C: R.S109},
 	{at: '110', C: R.S110, whip: true},
 	{at: '111', C: R.S111},
-	{at: '112', C: P.Pending, own: true},
+	{at: '112', C: T.S112, own: true, whip: true,},
+	{at: '113', C: T.S113, own: true,},
+	{at: '114', C: T.S114, whip: true,},
+	{at: '115', C: T.S115,},
+	{at: '116', C: T.S116,},
+	{at: '117', C: T.S117,},
+	{at: '118', C: T.S118,},
+	{at: '119', C: T.S119,},
+	{at: '120', C: T.S120,},
+	{at: '121', C: T.S121, whip: true,},
+	{at: '122', C: T.S122, whip: true,},
+	{at: '123', C: T.S123, whip: true,},
+	{at: '124', C: T.S124, whip: true,},
+	{at: '125', C: T.S125,},
+	{at: '126', C: T.S126,},
+	{at: '127', C: T.S127,},
+	{at: '128', C: T.S128,},
+	{at: '129', C: T.S129,},
+	{at: '130', C: T.S130, whip: true,},
+	{at: '131', C: T.S131, whip: true,},
+	{at: '132', C: T.S132,},
+	{at: '133', C: T.S133,},
+	{at: '134', C: T.S134, whip: true,},
+	{at: '135', C: T.S135,},
+	{at: '136', C: T.S136,},
+	{at: '137', C: T.S137,},
+	{at: '138', C: T.S138,},
+	{at: '139', C: T.S139,},
+	{at: '140', C: T.S140,},
+	{at: '141', C: T.S141, whip: true,},
+	{at: '142', C: T.S142,},
+	{at: '143', C: T.S143, whip: true,},
+	{at: '144', C: T.S144,},
+	{at: '145', C: T.S145,},
+	{at: '146', C: P.Pending, own: true},
 ];

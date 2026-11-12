@@ -1,4 +1,5 @@
 # reads out/edge/f*.png (rendered at half size), prints the frames where a plate/bubble/card touches the 60 px band
+# also the frames with a black bar on the frame edge,
 # and the frames where plates, bubbles, timers and banners overlap each other (partial overlap; a box fully inside another is skipped)
 import sys, glob, os
 from PIL import Image
@@ -14,6 +15,12 @@ for fn in sorted(glob.glob(os.path.join(sys.argv[1], 'f*.png'))):
     cream = near((251, 248, 239)) | near((255, 246, 220))
     banner = near((42, 32, 54))
     boxes = []
+    # black bars on the frame edge (camera or whip shift showing the empty canvas): pure-black edge band next to a lit interior
+    lum = im.mean(axis=2)
+    for side, edge, inner in (('left', lum[:, 0:3], lum[:, 14:18]), ('right', lum[:, -3:], lum[:, -18:-14]), ('top', lum[0:3, :], lum[14:18, :]), ('bottom', lum[-3:, :], lum[-18:-14, :])):
+        if edge.mean() < 5 and inner.mean() > 30:
+            bad += 1
+            print(os.path.basename(fn), 'black edge', side, round(float(edge.mean()), 1), 'vs', round(float(inner.mean()), 1))
     for name, mask, minpx in (('plate', navy, 700), ('card', cream, 1500), ('banner', banner, 2500)):
         lab, n = ndimage.label(ndimage.binary_dilation(mask, iterations=2))
         for i, sl in enumerate(ndimage.find_objects(lab), 1):

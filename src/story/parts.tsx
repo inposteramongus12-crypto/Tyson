@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {createContext, useContext} from 'react';
 import {AbsoluteFill, interpolate, random} from 'remotion';
 import {Actor, useShot} from '../kit/core';
 import {Cam} from '../engine/camera';
@@ -26,16 +26,37 @@ export const kk = (f: number, a: number, b: number) => interpolate(f, [a, b], [0
 
 type ShotProps = {from: Cam; to?: Cam; bg?: string; children: React.ReactNode; ov?: React.ReactNode; night?: boolean; still?: boolean; light?: false};
 /* one scene: camera pushes from `from` to `to` over the shot (a push of 8–14 % if `to` is omitted) */
+type PlateInfo = {x: number; y: number; n: number; t: number};
+const PlateReg = createContext<{list: PlateInfo[]} | null>(null);
+/* crack-number plates are collected while the scene renders and drawn last, on top of every layer (characters, furniture) */
+const TopPlates: React.FC<{reg: {list: PlateInfo[]}}> = ({reg}) => (
+	<Svg>
+		{reg.list.map((p, i) => (
+			<g key={i} transform={`translate(${p.x},${p.y}) scale(${0.6 + 0.4 * interpolate(p.t, [4, 14], [0, 1], clamp)})`} opacity={interpolate(p.t, [4, 10], [0, 1], clamp)}>
+				<rect x={-86} y={-44} width={172} height={88} rx={20} fill={PLATE} stroke={GOLD} strokeWidth={6} />
+				<text x={0} y={22} textAnchor="middle" fontFamily={FONT} fontWeight={900} fontSize={66} fill={GOLD}>
+					№{p.n}
+				</text>
+			</g>
+		))}
+	</Svg>
+);
 export const Scene: React.FC<ShotProps> = ({from, to, bg, children, ov, night, still, light}) => {
 	const end = to ?? {...from, zoom: from.zoom * 1.1};
 	const cam = usePush(from, end);
+	const reg = {list: [] as PlateInfo[]};
 	return (
-		<AbsoluteFill>
-			<Stage cam={cam} bg={bg ?? '#1b2038'} light={light === false ? false : night ? {night: true} : {}} still={still} dust={night ? undefined : '#ffe9b8'}>
-				{children}
-			</Stage>
-			{ov}
-		</AbsoluteFill>
+		<PlateReg.Provider value={reg}>
+			<AbsoluteFill>
+				<Stage cam={cam} bg={bg ?? '#1b2038'} light={light === false ? false : night ? {night: true} : {}} still={still} dust={night ? undefined : '#ffe9b8'}>
+					{children}
+					<Layer depth={1}>
+						<TopPlates reg={reg} />
+					</Layer>
+				</Stage>
+				{ov}
+			</AbsoluteFill>
+		</PlateReg.Provider>
 	);
 };
 
@@ -53,23 +74,28 @@ export const Plate: React.FC<{x: number; y: number; w: number; h?: number; text:
 };
 
 /* a crack on a thing: jagged line + big number plate on the thing. t = frames since it appeared; it stays. */
-export const Crack: React.FC<{x: number; y: number; len: number; ang?: number; n: number; t: number; w?: number; plate?: [number, number]}> = ({x, y, len, ang = 0, n, t, w = 9, plate}) => {
+export const Crack: React.FC<{x: number; y: number; len: number; ang?: number; n: number; t: number; w?: number; plate?: [number, number]; ox?: number; oy?: number; noPlate?: boolean; wplate?: [number, number]}> = ({x, y, len, ang = 0, n, t, w = 9, plate, ox = 0, oy = 0, noPlate, wplate}) => {
+	const reg = useContext(PlateReg);
 	if (t < 0) return null;
 	const k = interpolate(t, [0, 9], [0, 1], clamp);
 	const pts = Array.from({length: 9}).map((_, i) => [(i / 8) * len, (i % 2 ? 1 : -1) * (14 + random('cr' + n + i) * 22) * (i === 0 || i === 8 ? 0.3 : 1)]);
 	const d = 'M' + pts.map((p) => p.join(',')).join(' L');
 	const px = plate ? plate[0] : len / 2;
 	const py = plate ? plate[1] : -90;
+	const a = (ang * Math.PI) / 180;
+	if (reg && !noPlate) reg.list.push(wplate ? {x: wplate[0], y: wplate[1], n, t} : {x: ox + x + px * Math.cos(a) - py * Math.sin(a), y: oy + y + px * Math.sin(a) + py * Math.cos(a), n, t});
 	return (
 		<g transform={`translate(${x},${y}) rotate(${ang})`}>
 			<path d={d} stroke="#0b0d1e" strokeWidth={w + 6} fill="none" strokeLinejoin="round" strokeLinecap="round" pathLength={1} strokeDasharray="1" strokeDashoffset={1 - k} />
 			<path d={d} stroke="#fff4c8" strokeWidth={w - 4} fill="none" strokeLinejoin="round" strokeLinecap="round" pathLength={1} strokeDasharray="1" strokeDashoffset={1 - k} />
-			<g transform={`translate(${px},${py}) rotate(${-ang}) scale(${0.6 + 0.4 * interpolate(t, [4, 14], [0, 1], clamp)})`} opacity={interpolate(t, [4, 10], [0, 1], clamp)}>
-				<rect x={-86} y={-44} width={172} height={88} rx={20} fill={PLATE} stroke={GOLD} strokeWidth={6} />
-				<text x={0} y={22} textAnchor="middle" fontFamily={FONT} fontWeight={900} fontSize={66} fill={GOLD}>
-					№{n}
-				</text>
-			</g>
+			{!reg && !noPlate ? (
+				<g transform={`translate(${px},${py}) rotate(${-ang}) scale(${0.6 + 0.4 * interpolate(t, [4, 14], [0, 1], clamp)})`} opacity={interpolate(t, [4, 10], [0, 1], clamp)}>
+					<rect x={-86} y={-44} width={172} height={88} rx={20} fill={PLATE} stroke={GOLD} strokeWidth={6} />
+					<text x={0} y={22} textAnchor="middle" fontFamily={FONT} fontWeight={900} fontSize={66} fill={GOLD}>
+						№{n}
+					</text>
+				</g>
+			) : null}
 		</g>
 	);
 };
@@ -439,7 +465,7 @@ export const S009: React.FC = () => {
 		</Scene>
 	);
 };
-const LehaUp: React.FC<{k: number; x: number; uid: string; pose?: Pose; facing?: 1 | -1}> = ({k, x, uid, pose, facing = 1}) => (
+export const LehaUp: React.FC<{k: number; x: number; uid: string; pose?: Pose; facing?: 1 | -1}> = ({k, x, uid, pose, facing = 1}) => (
 	<g>
 		<clipPath id={'hc' + uid}>
 			<rect x={0} y={0} width={1920} height={896} />
@@ -1183,7 +1209,7 @@ export const S039: React.FC = () => {
 
 export const Pending: React.FC = () => (
 	<AbsoluteFill style={{background: '#131736', alignItems: 'center', justifyContent: 'center'}}>
-		<div style={{fontFamily: FONT, fontWeight: 900, fontSize: 90, color: GOLD}}>Части 9–11: сцены впереди</div>
+		<div style={{fontFamily: FONT, fontWeight: 900, fontSize: 90, color: GOLD}}>Часть 11: сцены впереди</div>
 	</AbsoluteFill>
 );
 

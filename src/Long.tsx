@@ -59,7 +59,7 @@ export const Long: React.FC<{sound?: boolean}> = ({sound = true}) => {
 					<feGaussianBlur stdDeviation={`${w ? 60 * w.k : 0} 0`} />
 				</filter>
 			</svg>
-			<AbsoluteFill style={w ? {transform: `translateX(${w.dir * 260 * w.k}px) scale(${1 + 0.12 * w.k})`, filter: 'url(#whipBlur)'} : undefined}>
+			<AbsoluteFill style={w ? {transform: `translateX(${w.dir * 110 * w.k}px) scale(${1 + 0.22 * w.k})`, filter: 'url(#whipBlur)'} : undefined}>
 				{SHOT_TIMES.map((s, i) => (
 					<Sequence key={i} from={s.start} durationInFrames={s.end - s.start} name={`shot ${i + 1} @${s.at}`}>
 						<ShotHost start={s.start} end={s.end} C={s.C} own={s.own} />

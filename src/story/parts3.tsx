@@ -15,7 +15,7 @@ import {CardBG, Egg, Splat} from './parts2';
    The belt is the only intact thing: it never gets a crack. Big fist only on breakages; a hand always grows from a shoulder. */
 
 /* ----------------------------------- belt ----------------------------------- */
-const BeltArt: React.FC<{x: number; y: number; s?: number; rot?: number; shine?: number}> = ({x, y, s = 1, rot = 0, shine = 0}) => (
+export const BeltArt: React.FC<{x: number; y: number; s?: number; rot?: number; shine?: number}> = ({x, y, s = 1, rot = 0, shine = 0}) => (
 	<g transform={`translate(${x},${y}) rotate(${rot}) scale(${s})`}>
 		<rect x={-300} y={-52} width={600} height={104} rx={30} fill="#1d2236" stroke="#0b0d1e" strokeWidth={6} />
 		{[-250, -200, 200, 250].map((px) => (
@@ -28,7 +28,7 @@ const BeltArt: React.FC<{x: number; y: number; s?: number; rot?: number; shine?:
 	</g>
 );
 /* the belt lying on the hero's shoulder: a strap across the chest and the gold plate */
-const HeroBelt: React.FC<{x: number; facing?: 1 | -1; seat?: number; s?: number}> = ({x, facing = 1, seat, s = HS}) => (
+export const HeroBelt: React.FC<{x: number; facing?: 1 | -1; seat?: number; s?: number}> = ({x, facing = 1, seat, s = HS}) => (
 	<g transform={`translate(${x},${seat ?? hip(s)}) scale(${s * facing},${s})`}>
 		<path d="M-14,-124 L26,-124 L58,-26 L22,-26 Z" fill="#1d2236" stroke="#0b0d1e" strokeWidth={3} />
 		<ellipse cx={24} cy={-76} rx={29} ry={21} fill="#ffd34a" stroke="#b8830f" strokeWidth={3} />
@@ -62,21 +62,21 @@ export const S085: React.FC = () => {
 	const t = f - at('085');
 	const roll = (to: number, a: number, b: number) => Math.round(interpolate(t, [a, b], [0, to], {...clamp, easing: ease}));
 	const cell = (x: number, v: number, label: string) => (
-		<g transform={`translate(${x},470)`}>
-			<rect x={-190} y={-170} width={380} height={340} rx={30} fill={PLATE} stroke={GOLD} strokeWidth={7} />
-			<text y={50} textAnchor="middle" fontFamily={FONT} fontWeight={900} fontSize={190} fill="#fff">{v}</text>
-			<text y={130} textAnchor="middle" fontFamily={FONT} fontWeight={800} fontSize={58} fill={GOLD}>{label}</text>
+		<g transform={`translate(${x},330)`}>
+			<rect x={-190} y={-150} width={380} height={300} rx={30} fill={PLATE} stroke={GOLD} strokeWidth={7} />
+			<text y={30} textAnchor="middle" fontFamily={FONT} fontWeight={900} fontSize={170} fill="#fff">{v}</text>
+			<text y={116} textAnchor="middle" fontFamily={FONT} fontWeight={800} fontSize={66} fill={GOLD}>{label}</text>
 		</g>
 	);
 	return (
-		<CardBG t={t} push={0.14} html={<Plate x={960} y={800} w={1100} h={140} text="САМЫЙ МОЛОДОЙ" t={t - 90} size={92} />}>
-			{cell(400, roll(20, 4, 60), 'ГОДА')}
-			{cell(960, roll(4, 24, 70), 'МЕСЯЦА')}
-			{cell(1520, roll(22, 40, 100), 'ДНЯ')}
+		<CardBG t={t} push={0.1} html={<><Plate x={960} y={590} w={1560} h={140} text="20 ЛЕТ · 4 МЕСЯЦА · 22 ДНЯ" t={t - 100} size={84} /><Plate x={960} y={800} w={1100} h={140} text="САМЫЙ МОЛОДОЙ" t={t - 110} size={92} /></>}>
+			{cell(400, roll(20, 4, 60), 'ЛЕТ')}
+			{cell(960, roll(4, 24, 70), 'МЕС.')}
+			{cell(1520, roll(22, 40, 100), 'ДН.')}
 		</CardBG>
 	);
 };
-const Arena: React.FC<{f: number}> = ({f}) => (
+export const Arena: React.FC<{f: number}> = ({f}) => (
 	<Svg>
 		<rect x={-100} y={-100} width={2200} height={1300} fill="#0c0a1c" />
 		{[360, 960, 1560].map((x, i) => (
@@ -170,7 +170,7 @@ const HomeScene: React.FC<{from: [number, number, number]; to: [number, number, 
 		</Layer>
 	</Scene>
 );
-const Glasses: React.FC<{x: number; y: number; s?: number; rot?: number}> = ({x, y, s = 1, rot = 0}) => (
+export const Glasses: React.FC<{x: number; y: number; s?: number; rot?: number}> = ({x, y, s = 1, rot = 0}) => (
 	<g transform={`translate(${x},${y}) rotate(${rot}) scale(${s})`}>
 		<circle cx={-44} cy={0} r={34} fill="#cfeaf6" opacity={0.7} stroke="#14162a" strokeWidth={7} />
 		<circle cx={44} cy={0} r={34} fill="#cfeaf6" opacity={0.7} stroke="#14162a" strokeWidth={7} />
@@ -210,7 +210,7 @@ const Hall: React.FC<{f: number}> = ({f}) => (
 		<rect x={1530} y={540} width={240} height={300} rx={8} fill="#7a4c30" />
 	</Svg>
 );
-const FrameArt: React.FC<{x: number; y: number; cracked?: boolean}> = ({x, y, cracked}) => (
+export const FrameArt: React.FC<{x: number; y: number; cracked?: boolean}> = ({x, y, cracked}) => (
 	<g transform={`translate(${x},${y})`}>
 		<rect x={-150} y={-115} width={300} height={230} rx={8} fill="#6b4a2a" stroke="#3a2a18" strokeWidth={6} />
 		<rect x={-124} y={-90} width={248} height={180} fill="#9fd2f0" />
@@ -251,7 +251,7 @@ const Beat: React.FC<{bg: string; floor: string; children: React.ReactNode}> = (
 export const S091: React.FC = () => {
 	const {f, at} = useShot();
 	const t = f - at('091');
-	const seg = Math.min(2, Math.floor(t / 26));
+	const seg = Math.max(0, Math.min(2, Math.floor(t / 26)));
 	const u = t - seg * 26;
 	const fk = kk(u, 2, 10);
 	const jet = interpolate(u, [8, 16], [0, 1], clamp);
@@ -283,20 +283,20 @@ export const S091: React.FC = () => {
 							<path d="M940,600 q-60,-10 -80,30 l40,16 q20,-24 40,-10 z" fill="#c9cfdd" stroke="#6b7388" strokeWidth={4} />
 							<rect x={950} y={-40} width={20 + 30 * jet} height={640 * jet} fill="#8fcdf2" opacity={0.9} transform={`translate(${-15 * jet},${600 - 640 * jet})`} />
 							{[0, 1, 2, 3, 4, 5].map((i) => <circle key={i} cx={960 + (i - 2.5) * 40 * jet} cy={20 + (i % 3) * 30} r={14} fill="#8fcdf2" opacity={jet} />)}
-							<Crack x={934} y={650} len={90} ang={-70} n={14} t={u - 8} w={9} plate={[60, -150]} />
+							<Crack x={934} y={650} len={90} ang={-70} n={14} t={u - 8} w={9} wplate={[1230, 470]} />
 						</g>
 					) : seg === 1 ? (
 						<g>
 							<rect x={1060} y={470} width={80} height={150} rx={10} fill="#e9eef7" stroke="#9aa3b5" strokeWidth={4} />
 							<rect x={1090} y={500} width={20} height={50} rx={6} fill="#2b2f3a" transform={`rotate(${25 * fk} 1100 525)`} />
 							{spark > 0.5 && u > 6 ? <polygon points="1100,430 1112,462 1146,458 1120,480 1130,512 1100,492 1070,512 1082,480 1056,458 1090,462" fill="#ffe04a" /> : null}
-							<Crack x={1020} y={470} len={160} ang={55} n={15} t={u - 8} w={9} plate={[-130, 180]} />
+							<Crack x={1020} y={470} len={160} ang={55} n={15} t={u - 8} w={9} wplate={[1380, 400]} />
 						</g>
 					) : (
 						<g>
 							<rect x={1000} y={600} width={280} height={70} rx={14} fill="#2b2f3a" stroke="#0b0d1e" strokeWidth={5} transform="rotate(-6 1140 640)" />
 							{[0, 1, 2, 3].map((i) => <circle key={i} cx={1040 + i * 56} cy={630 - i * 4} r={11} fill={['#d94a3a', '#3aa37a', '#f2b21c', '#3d6fd6'][i]} />)}
-							<Crack x={1080} y={590} len={130} ang={70} n={16} t={u - 8} w={9} plate={[70, -140]} />
+							<Crack x={1080} y={590} len={130} ang={70} n={16} t={u - 8} w={9} wplate={[1400, 500]} />
 						</g>
 					)}
 					<Hero x={seg === 0 ? 820 : seg === 1 ? 900 : 860} big fist="white" uid={'h91' + seg} pose={handTo({...idle(f, 1), lean: 8}, seg === 0 ? 820 : seg === 1 ? 900 : 860, HS, 1, seg === 0 ? [946, 640] : seg === 1 ? [1030, 560] : [1000, 590], fk)} expr="wide" />
@@ -391,11 +391,11 @@ export const NewHouse: React.FC<{f: number; open?: number[]}> = ({f, open = [0, 
 		<rect x={440} y={250} width={1040} height={650} fill="#e8dcc0" stroke="#8a7a5a" strokeWidth={6} />
 		<rect x={420} y={220} width={1080} height={50} fill="#b9bfd6" stroke="#5a6078" strokeWidth={5} />
 		{Array.from({length: 26}).map((_, i) => <rect key={i} x={446 + i * 40} y={274} width={36} height={40} fill={i % 2 ? '#4a7fb8' : '#6a9fd8'} stroke="#2a4a78" strokeWidth={2} />)}
-		{Array.from({length: 4}).map((_, r) =>
-			Array.from({length: 5}).map((__, c) => (
+		{Array.from({length: 5}).map((_, r) =>
+			(r < 4 ? [0, 1, 2, 3, 4].map((c) => 500 + c * 190) : [730, 1030]).map((wx, c) => (
 				<g key={`${r}${c}`}>
-					<rect x={500 + c * 190} y={334 + r * 118} width={110} height={78} fill="#a9d4ee" stroke="#5a6078" strokeWidth={5} />
-					<line x1={555 + c * 190} y1={334 + r * 118} x2={555 + c * 190} y2={412 + r * 118} stroke="#5a6078" strokeWidth={4} />
+					<rect x={wx} y={334 + r * 118} width={110} height={78} fill="#a9d4ee" stroke="#5a6078" strokeWidth={5} />
+					<line x1={wx + 55} y1={334 + r * 118} x2={wx + 55} y2={412 + r * 118} stroke="#5a6078" strokeWidth={4} />
 				</g>
 			)),
 		)}
@@ -473,7 +473,7 @@ export const S098: React.FC = () => {
 export const S099: React.FC = () => {
 	const {f, at} = useShot();
 	const t = f - at('099');
-	const seg = Math.min(2, Math.floor(t / 44));
+	const seg = Math.max(0, Math.min(2, Math.floor(t / 44)));
 	const u = t - seg * 44;
 	return (
 		<Scene from={camOn(960, 620, 1.0)} to={camOn(980, 620, 1.18)} ov={<AbsoluteFill style={{background: '#fff', opacity: flash(u, 0, 4) * 0.5}} />}>
@@ -481,13 +481,13 @@ export const S099: React.FC = () => {
 				<Svg>
 					<Wall id="wl" top="#d6c9e6" bot="#b9a9d6" />
 					<Floor y={900} c="#8a7aa8" />
-					{[330, 960, 1590].map((x, i) => <BeltArt key={i} x={x} y={300} s={0.4} />)}
+					{[640, 960, 1280].map((x, i) => <BeltArt key={i} x={x} y={300} s={0.36} />)}
 					{seg === 0 ? (
 						<g>
 							<line x1={760} y1={820} x2={1500} y2={520} stroke="#5a4a2a" strokeWidth={22} />
 							<line x1={760} y1={900} x2={1500} y2={600} stroke="#8a6a44" strokeWidth={14} />
 							{[0, 1, 2, 3, 4].map((i) => <line key={i} x1={800 + i * 150} y1={810 - i * 60} x2={800 + i * 150} y2={890 - i * 60} stroke="#8a6a44" strokeWidth={10} />)}
-							<Crack x={1020} y={670} len={240} ang={-22} n={20} t={u - 8} w={11} plate={[120, -130]} />
+							<Crack x={1020} y={670} len={240} ang={-22} n={20} t={u - 8} w={11} wplate={[1420, 520]} />
 							<Hero x={880} big fist="white" uid="h99a" pose={handTo({...idle(f, 1), lean: 8}, 880, HS, 1, [1010, 690], kk(u, 2, 10))} expr="wide" />
 						</g>
 					) : seg === 1 ? (
@@ -496,7 +496,7 @@ export const S099: React.FC = () => {
 							<rect x={1170} y={560} width={50} height={130} rx={10} fill="#c9cfdd" stroke="#6b7388" strokeWidth={4} />
 							<path d="M1170,570 q-110,-30 -150,20" stroke="#c9cfdd" strokeWidth={30} fill="none" strokeLinecap="round" />
 							<rect x={1000} y={-40} width={30 + 20 * kk(u, 6, 16)} height={660 * kk(u, 6, 16)} fill="#8fcdf2" opacity={0.9} transform={`translate(${-10},${620 - 660 * kk(u, 6, 16)})`} />
-							<Crack x={1130} y={600} len={110} ang={-60} n={21} t={u - 8} w={10} plate={[40, -160]} />
+							<Crack x={1130} y={600} len={110} ang={-60} n={21} t={u - 8} w={10} wplate={[1420, 470]} />
 							<Hero x={1020} big fist="white" uid="h99b" pose={handTo({...idle(f, 1), lean: 8}, 1020, HS, 1, [1170, 630], kk(u, 2, 10))} expr="wide" />
 						</g>
 					) : (
@@ -505,8 +505,8 @@ export const S099: React.FC = () => {
 							<path d="M720,560 L1440,500 L1620,620" stroke="#2a2f4a" strokeWidth={24} fill="none" />
 							<rect x={700} y={790} width={80} height={110} fill="#14162a" />
 							<rect x={1540} y={790} width={80} height={110} fill="#14162a" />
-							<Crack x={920} y={540} len={270} ang={-6} n={22} t={u - 6} w={11} plate={[130, -110]} />
-							<Crack x={1220} y={515} len={210} ang={-6} n={23} t={u - 22} w={11} plate={[100, 130]} />
+							<Crack x={920} y={540} len={270} ang={-6} n={22} t={u - 6} w={11} wplate={[1000, 420]} />
+							<Crack x={1220} y={515} len={210} ang={-6} n={23} t={u - 22} w={11} wplate={[1470, 440]} />
 							<Hero x={1020} big fist="white" uid="h99c" pose={handTo({...idle(f, 1), lean: 8}, 1020, HS, 1, [1130, 520], kk(u, 2, 10))} expr="wide" />
 						</g>
 					)}
@@ -517,12 +517,14 @@ export const S099: React.FC = () => {
 };
 
 /* new roof: parapet with tile band, nest on the corner, coop */
-const NEST = {x: 1180, y: 770};
-const NewRoof: React.FC<{f: number; crack?: number; crumble?: number}> = ({f, crack, crumble = 0}) => (
+export const NEST = {x: 1180, y: 770};
+export const NewRoof: React.FC<{f: number; crack?: number; crumble?: number; night?: boolean}> = ({f, crack, crumble = 0, night}) => (
 	<Svg>
-		<Wall id="nr" top="#7fc0ea" bot="#ffe9c8" />
-		{[0, 1, 2, 3, 4].map((i) => <rect key={i} x={i * 440 - 60} y={560 - (i % 3) * 80} width={260} height={400} fill="#9fb0c8" opacity={0.7} />)}
-		<rect x={-100} y={900} width={2200} height={300} fill="#8a8ea6" />
+		<Wall id={night ? 'nr-n' : 'nr'} top={night ? '#070a1e' : '#7fc0ea'} bot={night ? '#1d2550' : '#ffe9c8'} />
+		{night ? Array.from({length: 40}).map((_, i) => <circle key={i} cx={random('ns' + i) * 1920} cy={random('nt' + i) * 520} r={1.5 + random('nu' + i) * 2.5} fill="#fff" opacity={0.4 + 0.5 * Math.abs(Math.sin(f / 22 + i))} />) : null}
+		{night ? <circle cx={1500} cy={210} r={62} fill="#eef1ff" /> : null}
+		{[0, 1, 2, 3, 4].map((i) => <rect key={i} x={i * 440 - 60} y={560 - (i % 3) * 80} width={260} height={400} fill={night ? '#2a3358' : '#9fb0c8'} opacity={0.7} />)}
+		<rect x={-100} y={900} width={2200} height={300} fill={night ? '#262b48' : '#8a8ea6'} />
 		{/* parapet with tile band */}
 		<rect x={900} y={800} width={600} height={110} fill="#c9ced8" stroke="#5a6078" strokeWidth={5} />
 		<rect x={890} y={782} width={620} height={26} fill="#dfe3ee" stroke="#5a6078" strokeWidth={5} />
@@ -535,9 +537,10 @@ const NewRoof: React.FC<{f: number; crack?: number; crumble?: number}> = ({f, cr
 			<path d="M1620,610 L1810,500 L2000,610 Z" fill="#c9402f" stroke="#7a1f18" strokeWidth={4} />
 			{[0, 1, 2].map((i) => <circle key={i} cx={1700 + i * 100} cy={720} r={26} fill="#1a1020" />)}
 		</g>
+		{night ? <rect x={-400} y={-300} width={2800} height={1500} fill="#050818" opacity={0.38} /> : null}
 	</Svg>
 );
-const Nest: React.FC<{k?: number; neck?: number; fluff?: number}> = ({k = 1, neck = 0, fluff = 0}) => (
+export const Nest: React.FC<{k?: number; neck?: number; fluff?: number}> = ({k = 1, neck = 0, fluff = 0}) => (
 	<g>
 		<ellipse cx={NEST.x} cy={NEST.y + 20} rx={92 * k} ry={30 * k} fill="#8a6a44" stroke="#4a3a24" strokeWidth={4} />
 		<Chick x={NEST.x - 52 * k} y={NEST.y + 12} s={1.5 * k} facing={1} flap={Math.sin(neck * 6)} />
@@ -548,7 +551,7 @@ const Nest: React.FC<{k?: number; neck?: number; fluff?: number}> = ({k = 1, nec
 		<path d={`M${NEST.x - 100 * k},${NEST.y + 14} q30,34 100,34 q70,0 100,-34 l-8,40 q-92,28 -184,0 z`} fill="#a98a5a" stroke="#4a3a24" strokeWidth={4} />
 	</g>
 );
-const Shovel: React.FC<{grain?: number}> = ({grain = 1}) => (
+export const Shovel: React.FC<{grain?: number}> = ({grain = 1}) => (
 	<g>
 		<line x1={-20} y1={0} x2={330} y2={0} stroke="#8a6a44" strokeWidth={14} strokeLinecap="round" />
 		<path d="M330,-30 L420,-34 L420,34 L330,30 Q300,0 330,-30 Z" fill="#9aa3b5" stroke="#47506a" strokeWidth={4} />
@@ -658,7 +661,7 @@ export const S104: React.FC = () => {
 };
 
 /* Leha in a lounger */
-const Lounger: React.FC<{x: number; broken?: number}> = ({x, broken = 0}) => (
+export const Lounger: React.FC<{x: number; broken?: number}> = ({x, broken = 0}) => (
 	<g>
 		<polygon points={`${x - 100},900 ${x - 40},770 ${x + 20},770 ${x - 30},900`} fill="#6a4a2a" />
 		<polygon points={`${x + 130},900 ${x + 80},770 ${x + 40},770 ${x + 100},900`} fill="#6a4a2a" />
@@ -676,14 +679,14 @@ const Lounger: React.FC<{x: number; broken?: number}> = ({x, broken = 0}) => (
 );
 const LX = 1440;
 const lehaSit = (f: number, extra: Partial<Pose> = {}): Pose => ({...SIT, ...extra});
-const SelfieStick: React.FC<{x0: number; y0: number; x1: number; y1: number; egg?: boolean}> = ({x0, y0, x1, y1, egg = true}) => (
+export const SelfieStick: React.FC<{x0: number; y0: number; x1: number; y1: number; egg?: boolean}> = ({x0, y0, x1, y1, egg = true}) => (
 	<g>
 		<line x1={x0} y1={y0} x2={x1} y2={y1} stroke="#2b2f3a" strokeWidth={9} strokeLinecap="round" />
 		<line x1={x0} y1={y0} x2={x0 - (x0 - x1) * 0.15} y2={y0 - (y0 - y1) * 0.15} stroke="#9aa3b5" strokeWidth={14} strokeLinecap="round" />
 		{egg ? <Egg x={x1} y={y1 - 34} s={0.9} /> : null}
 	</g>
 );
-const NB9: React.FC<{x: number; y: number}> = ({x, y}) => (
+export const NB9: React.FC<{x: number; y: number}> = ({x, y}) => (
 	<g transform={`translate(${x},${y}) rotate(-6)`}>
 		<rect x={-80} y={-56} width={160} height={112} rx={8} fill="#2b4a8a" stroke="#0b1530" strokeWidth={5} />
 		<rect x={-60} y={-40} width={120} height={46} rx={4} fill="#fbf8ef" />
@@ -786,7 +789,7 @@ export const S109: React.FC = () => {
 		</RoofLeha>
 	);
 };
-const Poster: React.FC<{x: number; y: number; w?: number; h?: number; s?: number; rip?: number}> = ({x, y, w = 360, h = 480, s = 1, rip = 0}) => {
+export const Poster: React.FC<{x: number; y: number; w?: number; h?: number; s?: number; rip?: number}> = ({x, y, w = 360, h = 480, s = 1, rip = 0}) => {
 	const body = (clip: string) => (
 		<g clipPath={`url(#${clip})`}>
 			<rect x={-w / 2} y={-h / 2} width={w} height={h} rx={10} fill="#7a1f2c" stroke="#ffc94a" strokeWidth={8} />
@@ -833,16 +836,16 @@ export const S110: React.FC = () => {
 export const S111: React.FC = () => {
 	const {f, at} = useShot();
 	const t = f - at('111');
-	const rip = kk(t, 12, 36);
+	const rip = kk(t, 6, 24);
 	return (
 		<Scene from={camOn(800, 620, 1.2)} to={camOn(820, 600, 1.55)}>
 			<Layer depth={1}>
 				<Svg>
 					<Wall id="ps2" top="#d6c9e6" bot="#b9a9d6" />
 					<Floor y={900} c="#8a7aa8" />
-					<Hero x={640} big fist="white" uid="h111" pose={reach(reach({...idle(f, 1), lean: 2}, 'F', [88, -86], 1), 'B', [74, -84], 1)} mouth="smirk" expr="angry" />
+					<Hero x={640} big fist="white" uid="h111" pose={reach(reach({...idle(f, 1), lean: 2}, 'F', [112, -86], 1), 'B', [100, -84], 1)} mouth="smirk" expr="angry" />
 					<HeroBelt x={640} />
-					<Poster x={816} y={540} w={300} h={400} s={0.8} rip={rip} />
+					<Poster x={900} y={540} w={300} h={400} s={0.8} rip={rip} />
 				</Svg>
 			</Layer>
 		</Scene>
