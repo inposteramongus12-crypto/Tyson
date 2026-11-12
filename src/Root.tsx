@@ -4,6 +4,7 @@ import {Long, LONG_FRAMES} from './Long';
 import {Short, SHORT_FRAMES} from './Short';
 import {Sheet, SheetProps, sheetSize} from './Sheet';
 import {PauseTime} from './reference/PauseTime';
+import {CastSheet, KnucklesShot} from './CastSheet';
 
 /* open-licence fonts from public/fonts, loaded before the first frame renders */
 // generous timeout: with several render tabs at once a cold font load can take a while;
@@ -53,6 +54,8 @@ export const Root: React.FC = () => (
 				return {width: s.width, height: Math.ceil(s.height / 2) * 2};
 			}}
 		/>
+		<Composition id="Cast" component={CastSheet} durationInFrames={30} fps={30} width={1920} height={1760} />
+		<Composition id="Knuckles" component={KnucklesShot} durationInFrames={30} fps={30} width={1920} height={1080} defaultProps={{state: 'white' as const, mode: 'close' as const}} />
 		{/* the approved style reference: 10 s, built by hand, shows what "our level" means */}
 		<Composition id="Reference" component={PauseTime} durationInFrames={300} fps={30} width={1920} height={1080} />
 	</>

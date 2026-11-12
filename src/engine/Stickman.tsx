@@ -7,6 +7,8 @@ export type Outfit = 'hoodie' | 'suit' | 'gown' | 'coat' | 'apron' | 'tee';
 export type Acc = 'headphones' | 'mustache' | 'glasses';
 export type Mouth = 'line' | 'frown' | 'open' | 'smile' | 'flat' | 'smirk' | 'none';
 export type HandShape = 'fist' | 'point' | 'snap';
+// knuckle state of the big fist glyph: white = clenched, skin = relaxed natural colour
+export type Knuckles = 'white' | 'skin';
 
 // Angles in degrees: 0 = limb points straight down, + = swings toward facing direction.
 // Arm/leg pairs: [upper angle, joint bend]. Elbows bend forward, knees bend backward.
@@ -72,6 +74,8 @@ type Props = {
 	chestText?: string;
 	// draw the front arm over the face (hand to cheek, facepalm, finger to lips)
 	armOver?: boolean;
+	// replaces the small dark hands with a large fist whose knuckle colour reads at medium shot
+	fist?: Knuckles;
 };
 
 const Limb: React.FC<{pts: V[]; w: number; c: string; hi?: string; hiSide?: number}> = ({pts, w, c, hi, hiSide = -1}) => {
@@ -164,6 +168,30 @@ const HeadShape: React.FC<{hair: Hair; hairColor: string; front: boolean}> = ({h
 	if (hair === 'short')
 		return <path d={`M${-R},${-2} C${-R - 6},${-R - 6} ${R + 6},${-R - 10} ${R},${-12} C${R - 20},${-R + 10} ${-R + 22},${-R + 4} ${-R + 8},${0} Z`} fill="#000" />;
 	return null;
+};
+
+
+/* Big fist glyph at the end of a forearm. Local +y runs along the forearm (down), knuckles face +y.
+   white: clenched, bloodless knuckles; skin: normal skin tone. Outline + highlight keep the colour readable at medium shot. */
+const Fist: React.FC<{at: V; ang: number; k: Knuckles}> = ({at, ang, k}) => {
+	const white = k === 'white';
+	const base = white ? '#f6f7fb' : '#e9a373';
+	const edge = white ? '#8d97ad' : '#a85a32';
+	const kn = white ? '#ffffff' : '#f0b189';
+	const shade = white ? '#c9d0df' : '#cf8658';
+	return (
+		<g transform={`translate(${at[0]},${at[1]}) rotate(${-ang}) scale(1.3)`}>
+			<rect x={-17} y={-4} width={34} height={34} rx={12} fill={base} stroke={edge} strokeWidth={3} />
+			<rect x={-17} y={14} width={34} height={14} rx={7} fill={shade} opacity={0.55} />
+			{[-12.5, -4.2, 4.2, 12.5].map((cx) => (
+				<circle key={cx} cx={cx} cy={30} r={7.2} fill={kn} stroke={edge} strokeWidth={2.6} />
+			))}
+			<path d="M-17,6 q-9,2 -8,12 q1,8 9,8" fill={base} stroke={edge} strokeWidth={3} strokeLinecap="round" />
+			{[-8.4, 0, 8.4].map((cx) => (
+				<line key={cx} x1={cx} y1={4} x2={cx} y2={14} stroke={edge} strokeWidth={1.8} strokeLinecap="round" opacity={0.55} />
+			))}
+		</g>
+	);
 };
 
 export const Stickman: React.FC<Props> = (p) => {
@@ -282,7 +310,7 @@ export const Stickman: React.FC<Props> = (p) => {
 					</>
 				)}
 				<Limb pts={aB} w={23} c={back} />
-				<circle cx={aB[2][0]} cy={aB[2][1]} r={9.5} fill="#0b0b0d" />
+				{p.fist ? <Fist at={aB[2]} ang={pose.armB[0] + pose.armB[1]} k={p.fist} /> : <circle cx={aB[2][0]} cy={aB[2][1]} r={9.5} fill="#0b0b0d" />}
 				{/* front leg */}
 				{p.hideLegs ? null : (
 					<>
@@ -358,7 +386,7 @@ export const Stickman: React.FC<Props> = (p) => {
 						);
 					return null;
 				})()}
-				<circle cx={aF[2][0]} cy={aF[2][1]} r={10} fill="#0b0b0d" />
+				{p.fist ? <Fist at={aF[2]} ang={pose.armF[0] + pose.armF[1]} k={p.fist} /> : <circle cx={aF[2][0]} cy={aF[2][1]} r={10} fill="#0b0b0d" />}
 				{/* head */}
 				<line x1={add(hip, up, T - 10)[0]} y1={add(hip, up, T - 10)[1]} x2={headC[0]} y2={headC[1]} stroke="#000" strokeWidth={12} />
 				<g transform={`translate(${headC[0]},${headC[1]}) rotate(${pose.head + lean * 0.25})`}>
@@ -407,7 +435,7 @@ export const Stickman: React.FC<Props> = (p) => {
 					<Limb pts={aF} w={24 + rimW * 2} c={rim} />
 					<Limb pts={aF} w={24} c={color} hi={hi} hiSide={-1} />
 					<circle cx={aF[2][0]} cy={aF[2][1]} r={10 + rimW} fill={rim} />
-					<circle cx={aF[2][0]} cy={aF[2][1]} r={10} fill="#0b0b0d" />
+					{p.fist ? <Fist at={aF[2]} ang={pose.armF[0] + pose.armF[1]} k={p.fist} /> : <circle cx={aF[2][0]} cy={aF[2][1]} r={10} fill="#0b0b0d" />}
 				</g>
 			) : null}
 		</g>

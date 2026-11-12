@@ -54,3 +54,37 @@ export const Badge: React.FC<{x: number; y: number; text: string; border: string
 		</g>
 	);
 };
+
+/* Pigeon: (x, y) = feet on the perch, faces +x. wing 0..1 flaps. */
+export const Pigeon: React.FC<{x: number; y: number; s?: number; facing?: 1 | -1; wing?: number; body?: string}> = ({x, y, s = 1, facing = 1, wing = 0, body = '#8f99ad'}) => (
+	<g transform={`translate(${x},${y}) scale(${s * facing},${s})`}>
+		<line x1={-4} y1={-16} x2={-5} y2={0} stroke="#e8708a" strokeWidth={3} strokeLinecap="round" />
+		<line x1={6} y1={-16} x2={7} y2={0} stroke="#e8708a" strokeWidth={3} strokeLinecap="round" />
+		<path d="M-34,-34 L-52,-22 L-34,-24 Z" fill={darken(body, 0.3)} />
+		<ellipse cx={0} cy={-34} rx={34} ry={20} fill={body} />
+		<ellipse cx={22} cy={-44} rx={14} ry={11} fill="#3f9d8e" />
+		<circle cx={32} cy={-56} r={13} fill={lighten(body, 0.15)} />
+		<path d="M43,-57 L56,-53 L43,-51 Z" fill="#f2b45a" />
+		<circle cx={36} cy={-58} r={3.2} fill="#111" />
+		<path d={`M-18,-38 Q-2,${-62 - wing * 40} 16,-38 Q0,${-26 + wing * 10} -18,-38 Z`} fill={darken(body, 0.22)} />
+	</g>
+);
+
+/* Chick (a young pigeon): a separate item. (x, y) = feet. Sparse pale down, big beak, bare pink skin. */
+export const Chick: React.FC<{x: number; y: number; s?: number; facing?: 1 | -1; flap?: number}> = ({x, y, s = 1, facing = 1, flap = 0}) => (
+	<g transform={`translate(${x},${y}) scale(${s * facing},${s})`}>
+		<line x1={-4} y1={-8} x2={-5} y2={0} stroke="#f0a8a0" strokeWidth={3} strokeLinecap="round" />
+		<line x1={5} y1={-8} x2={6} y2={0} stroke="#f0a8a0" strokeWidth={3} strokeLinecap="round" />
+		<ellipse cx={0} cy={-20} rx={18} ry={15} fill="#d8c27c" stroke="#7a6a3c" strokeWidth={2} />
+		<path d="M-16,-26 Q-2,-30 12,-16" fill="none" stroke="#f0a8a0" strokeWidth={4} strokeLinecap="round" />
+		<g stroke="#b59e5a" strokeWidth={2} strokeLinecap="round">
+			<line x1={-8} y1={-34} x2={-11} y2={-41} />
+			<line x1={0} y1={-35} x2={0} y2={-43} />
+			<line x1={8} y1={-33} x2={11} y2={-40} />
+		</g>
+		<circle cx={12} cy={-32} r={10} fill="#d8c27c" stroke="#7a6a3c" strokeWidth={2} />
+		<path d="M20,-33 L33,-29 L20,-26 Z" fill="#f2a24a" />
+		<circle cx={15} cy={-35} r={3.3} fill="#111" />
+		<path d={`M-10,-20 Q-26,${-26 - flap * 14} -22,-10 Q-14,-12 -10,-20 Z`} fill="#f0a8a0" />
+	</g>
+);
