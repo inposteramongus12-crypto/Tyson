@@ -1,0 +1,807 @@
+[
+ {
+  "id": "001_N",
+  "sp": "N",
+  "t": "You just picked up a cup."
+ },
+ {
+  "id": "002_N",
+  "sp": "N",
+  "t": "Crack. Now there's a handle in your hand. And the cup is on the floor."
+ },
+ {
+  "id": "003_N",
+  "sp": "N",
+  "t": "Yesterday you won a fight in a minute. Today you lost to the dishes."
+ },
+ {
+  "id": "004_HERO",
+  "sp": "HERO",
+  "t": "Mom, do we have any metal cups?"
+ },
+ {
+  "id": "005_N",
+  "sp": "N",
+  "t": "That's the small stuff. One day something alive will land in that hand. Lighter than a cup."
+ },
+ {
+  "id": "006_N",
+  "sp": "N",
+  "t": "What if you became Mike Tyson? You'd get his punch, his speed, and his road."
+ },
+ {
+  "id": "007_N",
+  "sp": "N",
+  "t": "Let's rewind a little."
+ },
+ {
+  "id": "008_N",
+  "sp": "N",
+  "t": "Your name is Danya, you're fifteen. The strongest thing you've done with your hands is open a jar of pickles. On the third try."
+ },
+ {
+  "id": "009_N",
+  "sp": "N",
+  "t": "On your building's roof there's a pigeon loft. Forty birds, and you know each by sight."
+ },
+ {
+  "id": "010_LEHA",
+  "sp": "LEHA",
+  "t": "Back to your chickens again?"
+ },
+ {
+  "id": "011_HERO",
+  "sp": "HERO",
+  "t": "They're racing pigeons. They're smarter than you."
+ },
+ {
+  "id": "012_N",
+  "sp": "N",
+  "t": "Lyokha is your friend. He has a theory for everything and proof for nothing."
+ },
+ {
+  "id": "013_N",
+  "sp": "N",
+  "t": "And then an ordinary morning comes. You reach to turn off the alarm clock."
+ },
+ {
+  "id": "014_N",
+  "sp": "N",
+  "t": "And the alarm clock goes into the nightstand. Up to its hands."
+ },
+ {
+  "id": "015_HERO",
+  "sp": "HERO",
+  "t": "I... just pressed it."
+ },
+ {
+  "id": "016_N",
+  "sp": "N",
+  "t": "You walk to the door. Take the handle. Crack."
+ },
+ {
+  "id": "017_N",
+  "sp": "N",
+  "t": "In the yard, Gera from the third entrance is waiting. Two years he's collected your change. On schedule."
+ },
+ {
+  "id": "018_N",
+  "sp": "N",
+  "t": "He swings, just for show. And suddenly you're below his fist. And off to the side."
+ },
+ {
+  "id": "019_N",
+  "sp": "N",
+  "t": "Your hand answers on its own. Gera flies onto the bench. Sits up straight, like in an armchair. And gets up offended."
+ },
+ {
+  "id": "020_HERO",
+  "sp": "HERO",
+  "t": "Sorry! I didn't mean to!"
+ },
+ {
+  "id": "021_N",
+  "sp": "N",
+  "t": "The whole yard is looking at you. You're looking at your fist. And it clenches."
+ },
+ {
+  "id": "022_N",
+  "sp": "N",
+  "t": "Tyson's story began in Brownsville, Brooklyn. By his own account, he kept pigeons as a kid."
+ },
+ {
+  "id": "023_N",
+  "sp": "N",
+  "t": "You have pigeons too. Only now it's scary to go near them."
+ },
+ {
+  "id": "024_LEHA",
+  "sp": "LEHA",
+  "t": "Right. We need a scientific approach."
+ },
+ {
+  "id": "025_N",
+  "sp": "N",
+  "t": "Experiment one. A pencil. You pick it up the way people pick up a pencil."
+ },
+ {
+  "id": "026_N",
+  "sp": "N",
+  "t": "Splinters."
+ },
+ {
+  "id": "027_LEHA",
+  "sp": "LEHA",
+  "t": "Interesting. Now a glass."
+ },
+ {
+  "id": "028_N",
+  "sp": "N",
+  "t": "Experiment two. You try very hard. Gently. Two fingers."
+ },
+ {
+  "id": "029_N",
+  "sp": "N",
+  "t": "The glass holds for a whole second."
+ },
+ {
+  "id": "030_N",
+  "sp": "N",
+  "t": "Experiment three. An egg."
+ },
+ {
+  "id": "031_N",
+  "sp": "N",
+  "t": "You figured out everything about the egg from the umbrella."
+ },
+ {
+  "id": "032_LEHA",
+  "sp": "LEHA",
+  "t": "Conclusion. You've become too strong for things."
+ },
+ {
+  "id": "033_N",
+  "sp": "N",
+  "t": "Rule number one: the stronger you are, the more fragile the world around you."
+ },
+ {
+  "id": "034_N",
+  "sp": "N",
+  "t": "Sounds logical. Remember that rule."
+ },
+ {
+  "id": "035_HERO",
+  "sp": "HERO",
+  "t": "So what now, I shouldn't touch anything?"
+ },
+ {
+  "id": "036_LEHA",
+  "sp": "LEHA",
+  "t": "Or find someone who touches things the right way."
+ },
+ {
+  "id": "037_N",
+  "sp": "N",
+  "t": "In nineteen eighty-four, scientists Westling and Johansson measured how people hold things."
+ },
+ {
+  "id": "038_N",
+  "sp": "N",
+  "t": "It turned out we squeeze an object a little harder than needed so it won't slip. Just a little."
+ },
+ {
+  "id": "039_N",
+  "sp": "N",
+  "t": "Your margin is now like a hydraulic press."
+ },
+ {
+  "id": "040_N",
+  "sp": "N",
+  "t": "A basement gym. It smells of leather and chlorine. The coach is Semyon Ilyich, and he won't shake your hand."
+ },
+ {
+  "id": "041_COACH",
+  "sp": "COACH",
+  "t": "Saw what you did to your door handle. Come in."
+ },
+ {
+  "id": "042_N",
+  "sp": "N",
+  "t": "Tyson had a coach, Cus D'Amato. They met when Mike was about thirteen."
+ },
+ {
+  "id": "043_N",
+  "sp": "N",
+  "t": "D'Amato taught the peek-a-boo style: hands at your face, body swaying, punches by number."
+ },
+ {
+  "id": "044_COACH",
+  "sp": "COACH",
+  "t": "Seven! Two! Three!"
+ },
+ {
+  "id": "045_N",
+  "sp": "N",
+  "t": "You learn the numbers in a day. The slips in two. The body knows it all itself."
+ },
+ {
+  "id": "046_N",
+  "sp": "N",
+  "t": "On day three you take a light slap from the mitt. Then another."
+ },
+ {
+  "id": "047_N",
+  "sp": "N",
+  "t": "Semyon Ilyich lowers the mitts and looks for a long time. Not at your hands. At your shoulders. They're up by your ears."
+ },
+ {
+  "id": "048_COACH",
+  "sp": "COACH",
+  "t": "Shoulders down. You're not carrying a wardrobe."
+ },
+ {
+  "id": "049_N",
+  "sp": "N",
+  "t": "You lower your shoulders. For four seconds. Then they creep back up."
+ },
+ {
+  "id": "050_N",
+  "sp": "N",
+  "t": "The coach writes something in a notebook and underlines it twice."
+ },
+ {
+  "id": "051_N",
+  "sp": "N",
+  "t": "And then Semyon Ilyich takes out an egg."
+ },
+ {
+  "id": "052_COACH",
+  "sp": "COACH",
+  "t": "Hit it. And stop a centimeter short."
+ },
+ {
+  "id": "053_N",
+  "sp": "N",
+  "t": "The first egg. You aim and clench your fist till it creaks."
+ },
+ {
+  "id": "054_N",
+  "sp": "N",
+  "t": "The second. The third. The coach silently wipes the ring."
+ },
+ {
+  "id": "055_COACH",
+  "sp": "COACH",
+  "t": "Exhale. Watch the egg, not your hand."
+ },
+ {
+  "id": "056_N",
+  "sp": "N",
+  "t": "You exhale. You watch the egg. The fist flies, and stops. A centimeter away."
+ },
+ {
+  "id": "057_COACH",
+  "sp": "COACH",
+  "t": "Now catch."
+ },
+ {
+  "id": "058_N",
+  "sp": "N",
+  "t": "Your palm goes down with the egg. Like a hammock. The egg lies in your hand. Whole."
+ },
+ {
+  "id": "059_HERO",
+  "sp": "HERO",
+  "t": "How did I do that?!"
+ },
+ {
+  "id": "060_COACH",
+  "sp": "COACH",
+  "t": "When you figure it out, come back for the belt."
+ },
+ {
+  "id": "061_N",
+  "sp": "N",
+  "t": "You didn't figure it out. You decided you were just lucky."
+ },
+ {
+  "id": "062_N",
+  "sp": "N",
+  "t": "Your first fight. A community hall, two hundred spectators. Your opponent is older, heavier, and sure you used the wrong door."
+ },
+ {
+  "id": "063_N",
+  "sp": "N",
+  "t": "Gong. Slip. Seven, two, three. The referee counts to ten, and you look at the clock. A minute has passed."
+ },
+ {
+  "id": "064_N",
+  "sp": "N",
+  "t": "And the next morning you simply pick up a cup."
+ },
+ {
+  "id": "065_N",
+  "sp": "N",
+  "t": "Crack. A handle in your hand. The cup on the floor. Yesterday you won a fight in a minute. Today you lost to the dishes."
+ },
+ {
+  "id": "066_HERO",
+  "sp": "HERO",
+  "t": "Mom, do we have any metal cups?"
+ },
+ {
+  "id": "067_MAMA",
+  "sp": "MAMA",
+  "t": "We do. It's called a saucepan."
+ },
+ {
+  "id": "068_N",
+  "sp": "N",
+  "t": "Tyson's first nineteen professional fights ended in knockouts. Twelve in the first round."
+ },
+ {
+  "id": "069_N",
+  "sp": "N",
+  "t": "Yours come out the same. Fight, knockout. Home, a phone."
+ },
+ {
+  "id": "070_N",
+  "sp": "N",
+  "t": "Fight, knockout. Home, a key stays in the lock. Separate from the head."
+ },
+ {
+  "id": "071_N",
+  "sp": "N",
+  "t": "Fight, knockout. Home, a spoon. The third one this week."
+ },
+ {
+  "id": "072_N",
+  "sp": "N",
+  "t": "You eat with a plastic fork and carry bags on your elbows. Like a penguin."
+ },
+ {
+  "id": "073_N",
+  "sp": "N",
+  "t": "And once, something strange happens. You and Lyokha are arguing on the roof."
+ },
+ {
+  "id": "074_LEHA",
+  "sp": "LEHA",
+  "t": "Speaking of penguins. Penguins are fish!"
+ },
+ {
+  "id": "075_HERO",
+  "sp": "HERO",
+  "t": "They have feathers, Lyokha. Feathers!"
+ },
+ {
+  "id": "076_N",
+  "sp": "N",
+  "t": "You argue for four minutes. The whole time you're holding a glass bottle. Whole."
+ },
+ {
+  "id": "077_N",
+  "sp": "N",
+  "t": "Then you notice it."
+ },
+ {
+  "id": "078_N",
+  "sp": "N",
+  "t": "Clink."
+ },
+ {
+  "id": "079_LEHA",
+  "sp": "LEHA",
+  "t": "Note to self: penguins break bottles."
+ },
+ {
+  "id": "080_N",
+  "sp": "N",
+  "t": "Before the big fight Semyon Ilyich doesn't come to the gym."
+ },
+ {
+  "id": "081_N",
+  "sp": "N",
+  "t": "You're left with the bag, the numbers, and hands nobody tells to \"exhale\" anymore."
+ },
+ {
+  "id": "082_N",
+  "sp": "N",
+  "t": "Tyson had it harder. Cus D'Amato died on the fourth of November, nineteen eighty-five. A year before his student's biggest fight."
+ },
+ {
+  "id": "083_N",
+  "sp": "N",
+  "t": "You hang the coach's cap on a nail. Next to the door handle. Very carefully. The nail bends."
+ },
+ {
+  "id": "084_N",
+  "sp": "N",
+  "t": "On the twenty-second of November, nineteen eighty-six, Tyson won the title in the second round."
+ },
+ {
+  "id": "085_N",
+  "sp": "N",
+  "t": "He was twenty years, four months and twenty-two days old. No heavyweight champion had been younger."
+ },
+ {
+  "id": "086_N",
+  "sp": "N",
+  "t": "You're twenty too. Ten thousand in the arena. The second round. Seven, two, three."
+ },
+ {
+  "id": "087_N",
+  "sp": "N",
+  "t": "They put the belt on you. Heavy, golden. You squeeze your eyes shut and wait for the crack."
+ },
+ {
+  "id": "088_N",
+  "sp": "N",
+  "t": "No crack. You're not holding the belt. It just rests on your shoulder."
+ },
+ {
+  "id": "089_N",
+  "sp": "N",
+  "t": "At home, everything is as it was. Mom's glasses."
+ },
+ {
+  "id": "090_N",
+  "sp": "N",
+  "t": "The frame with your photo together."
+ },
+ {
+  "id": "091_N",
+  "sp": "N",
+  "t": "The tap. The light switch. The TV remote."
+ },
+ {
+  "id": "092_MAMA",
+  "sp": "MAMA",
+  "t": "Danechka. My champion. Come here."
+ },
+ {
+  "id": "093_N",
+  "sp": "N",
+  "t": "Mom hugs you. You stand with your arms at your sides, fists clenched, counting seconds until she lets go."
+ },
+ {
+  "id": "094_MAMA",
+  "sp": "MAMA",
+  "t": "Why are you so stiff, like wood?"
+ },
+ {
+  "id": "095_HERO",
+  "sp": "HERO",
+  "t": "Tired, Mom."
+ },
+ {
+  "id": "096_N",
+  "sp": "N",
+  "t": "Then, fast. In eighty-seven Tyson held three belts. In eighty-eight he put Michael Spinks down in ninety-one seconds."
+ },
+ {
+  "id": "097_N",
+  "sp": "N",
+  "t": "Now you have three belts too, a big house, and people who open doors for you. Literally."
+ },
+ {
+  "id": "098_N",
+  "sp": "N",
+  "t": "The handles in the house are steel. The cups are rubber. They still changed the steering wheel twice."
+ },
+ {
+  "id": "099_N",
+  "sp": "N",
+  "t": "The railings. The bathroom tap. The lid of a piano nobody plays."
+ },
+ {
+  "id": "100_N",
+  "sp": "N",
+  "t": "You moved the pigeon loft to the new roof. You scatter grain from a shovel. From three steps away."
+ },
+ {
+  "id": "101_N",
+  "sp": "N",
+  "t": "In a nest at the edge there's a chick. Three weeks old, and the loudest peeper."
+ },
+ {
+  "id": "102_N",
+  "sp": "N",
+  "t": "You used to take chicks like this into your palms and warm them. You reach out. Almost touching the down."
+ },
+ {
+  "id": "103_N",
+  "sp": "N",
+  "t": "And you pull back. Your hand finds the parapet. The parapet cracks."
+ },
+ {
+  "id": "104_N",
+  "sp": "N",
+  "t": "The chick looks at you and peeps. You feed it from the shovel."
+ },
+ {
+  "id": "105_LEHA",
+  "sp": "LEHA",
+  "t": "I've got a theory. An egg. On my command."
+ },
+ {
+  "id": "106_LEHA",
+  "sp": "LEHA",
+  "t": "Relax! Relax harder!"
+ },
+ {
+  "id": "107_N",
+  "sp": "N",
+  "t": "You relax with all your strength."
+ },
+ {
+  "id": "108_N",
+  "sp": "N",
+  "t": "Turns out you can't relax with all your strength."
+ },
+ {
+  "id": "109_LEHA",
+  "sp": "LEHA",
+  "t": "Note to self: on command doesn't work."
+ },
+ {
+  "id": "110_N",
+  "sp": "N",
+  "t": "In a week, Tokyo. An opponent almost nobody bets on. Forty-two to one, in your favor."
+ },
+ {
+  "id": "111_HERO",
+  "sp": "HERO",
+  "t": "I'll take him with my left hand."
+ },
+ {
+  "id": "112_N",
+  "sp": "N",
+  "t": "The eleventh of February, nineteen ninety, Tokyo. Tyson has thirty-seven wins and no losses."
+ },
+ {
+  "id": "113_N",
+  "sp": "N",
+  "t": "In round ten James Douglas knocked him out. The same forty-two to one."
+ },
+ {
+  "id": "114_N",
+  "sp": "N",
+  "t": "Your Tokyo looks like this. You step into the ring and don't warm up. Why bother."
+ },
+ {
+  "id": "115_N",
+  "sp": "N",
+  "t": "Round one. You swing with everything you've got. And miss."
+ },
+ {
+  "id": "116_N",
+  "sp": "N",
+  "t": "Round three. The opponent punches softly. But often. Every time he lands where you stand. You keep standing."
+ },
+ {
+  "id": "117_N",
+  "sp": "N",
+  "t": "Round five. You hit even harder. Shoulders like stone, neck like a post. The slips ended three rounds ago."
+ },
+ {
+  "id": "118_N",
+  "sp": "N",
+  "t": "Seven, two... The third number doesn't come. Your fist is clenched so hard it can't make it in time."
+ },
+ {
+  "id": "119_N",
+  "sp": "N",
+  "t": "Round ten. You see a glove. Then the ceiling. Then the referee, who is now counting for you."
+ },
+ {
+  "id": "120_N",
+  "sp": "N",
+  "t": "You get up when it's all over. You grab the rope. The rope snaps."
+ },
+ {
+  "id": "121_N",
+  "sp": "N",
+  "t": "The locker room. A plane. Home. You break everything you touch. And for once you don't even notice."
+ },
+ {
+  "id": "122_N",
+  "sp": "N",
+  "t": "Night. You're on the roof. Sitting on your own hands so you won't touch anything."
+ },
+ {
+  "id": "123_LEHA",
+  "sp": "LEHA",
+  "t": "Where are you? I'm bringing tea. In a saucepan."
+ },
+ {
+  "id": "124_N",
+  "sp": "N",
+  "t": "A peep. The chick has climbed out and is walking along the ledge. Below it, five floors and tile."
+ },
+ {
+  "id": "125_N",
+  "sp": "N",
+  "t": "Option one. Put a box under it."
+ },
+ {
+  "id": "126_N",
+  "sp": "N",
+  "t": "Option two. A net. The handle snaps in half."
+ },
+ {
+  "id": "127_N",
+  "sp": "N",
+  "t": "Option three. Touch nothing and wait for Lyokha. Lyokha is on the third floor."
+ },
+ {
+  "id": "128_N",
+  "sp": "N",
+  "t": "The chick takes another step. Its foot slips."
+ },
+ {
+  "id": "129_HERO",
+  "sp": "HERO",
+  "t": "Relax. Relax. Come on, relax already!"
+ },
+ {
+  "id": "130_N",
+  "sp": "N",
+  "t": "It doesn't work. You've been here before. The harder you order your hand, the tighter it clenches."
+ },
+ {
+  "id": "131_N",
+  "sp": "N",
+  "t": "And then you remember the bottle."
+ },
+ {
+  "id": "132_N",
+  "sp": "N",
+  "t": "You held it four minutes and didn't break it. Because you weren't looking at your hand. You were looking at Lyokha."
+ },
+ {
+  "id": "133_N",
+  "sp": "N",
+  "t": "And now everything else. The cup. The handle. The pencil. The key. The glasses. You watch your hand. Knuckles white."
+ },
+ {
+  "id": "134_N",
+  "sp": "N",
+  "t": "\"Watch the egg, not your hand.\""
+ },
+ {
+  "id": "135_HERO",
+  "sp": "HERO",
+  "t": "Lyokha! Talk! Anything!"
+ },
+ {
+  "id": "136_LEHA",
+  "sp": "LEHA",
+  "t": "Uh... Penguins are fish after all!"
+ },
+ {
+  "id": "137_HERO",
+  "sp": "HERO",
+  "t": "They have feathers!"
+ },
+ {
+  "id": "138_N",
+  "sp": "N",
+  "t": "The chick falls."
+ },
+ {
+  "id": "139_N",
+  "sp": "N",
+  "t": "You look only at it. Exhale. Your palm goes down with it. Like a hammock."
+ },
+ {
+  "id": "140_N",
+  "sp": "N",
+  "t": "Silence."
+ },
+ {
+  "id": "141_N",
+  "sp": "N",
+  "t": "It's sitting in your palm. Warm. Angry. Alive."
+ },
+ {
+  "id": "142_N",
+  "sp": "N",
+  "t": "You don't remember opening your fingers."
+ },
+ {
+  "id": "143_LEHA",
+  "sp": "LEHA",
+  "t": "Did I miss everything?"
+ },
+ {
+  "id": "144_N",
+  "sp": "N",
+  "t": "Lyokha pours tea. Without thinking, you take the cup from him. An ordinary porcelain one."
+ },
+ {
+  "id": "145_N",
+  "sp": "N",
+  "t": "The cup is whole."
+ },
+ {
+  "id": "146_N",
+  "sp": "N",
+  "t": "Rule number one was wrong. The world didn't become fragile because you became strong."
+ },
+ {
+  "id": "147_N",
+  "sp": "N",
+  "t": "Things broke when you clenched. When you were afraid to break them. When you held on to control with both hands."
+ },
+ {
+  "id": "148_N",
+  "sp": "N",
+  "t": "In twenty ten, McGill and colleagues recorded the muscles of five strong fighters. Their punches came in two peaks."
+ },
+ {
+  "id": "149_N",
+  "sp": "N",
+  "t": "Tense, release, tense. By their conclusion, the arm speeds up between the peaks."
+ },
+ {
+  "id": "150_N",
+  "sp": "N",
+  "t": "In Tokyo you didn't lose because you got weaker. You hit with everything, and speed is born where muscles let go."
+ },
+ {
+  "id": "151_N",
+  "sp": "N",
+  "t": "In the morning you go down to the basement. Semyon Ilyich is back. You bring him one egg."
+ },
+ {
+  "id": "152_COACH",
+  "sp": "COACH",
+  "t": "No belt. Why did you come?"
+ },
+ {
+  "id": "153_HERO",
+  "sp": "HERO",
+  "t": "Got it. Throw it."
+ },
+ {
+  "id": "154_N",
+  "sp": "N",
+  "t": "He throws. You watch the egg. Exhale. Palm. Whole."
+ },
+ {
+  "id": "155_N",
+  "sp": "N",
+  "t": "He opens the notebook. There's one word. Underlined twice."
+ },
+ {
+  "id": "156_COACH",
+  "sp": "COACH",
+  "t": "Well, there. Now we can talk about the belt."
+ },
+ {
+  "id": "157_N",
+  "sp": "N",
+  "t": "In the evening you come home. And Mom, as always, goes to hug you."
+ },
+ {
+  "id": "158_N",
+  "sp": "N",
+  "t": "You hug her first. With both arms. Nothing cracks."
+ },
+ {
+  "id": "159_MAMA",
+  "sp": "MAMA",
+  "t": "Finally. Not like wood."
+ },
+ {
+  "id": "160_N",
+  "sp": "N",
+  "t": "The strength stayed with you. All of it. Only the fear left."
+ },
+ {
+  "id": "161_N",
+  "sp": "N",
+  "t": "What are you afraid to break, if you're strong?"
+ }
+]
