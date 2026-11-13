@@ -305,6 +305,40 @@ const peep = (t0, amp = 0.05) => {
 		put(i0 + j, Math.sin(2 * Math.PI * (3600 + 1200 * Math.sin(tt * 38)) * tt) * Math.exp(-tt * 14) * amp, 0.1, 0.25);
 	}
 };
+/* wings (pigeons taking off / landing): bursts of band-passed noise, fast flaps that thin out, a few feather ticks */
+const flutter = (t0, dur, amp = 0.06) => {
+	for (let t = 0, k = 0; t < dur; k++) {
+		const u = t / dur;
+		const i0 = Math.floor((t0 + t) * SR), b = new BP(), pan = (rnd() - 0.5) * 0.8;
+		const f0 = 1400 + 1800 * rnd();
+		for (let j = 0; j < 0.05 * SR; j++) put(i0 + j, b.f(noise(), f0, 1.2) * Math.exp(-(j / SR) / 0.014) * amp * 3 * (1 - u * 0.7) * (0.6 + 0.4 * rnd()), pan, 0.2);
+		t += (0.055 + 0.07 * u) * (0.8 + 0.4 * rnd());
+	}
+};
+/* water hissing from a broken tap: bright noise with a slow ripple */
+const hiss = (t0, dur, amp = 0.05) => {
+	const i0 = Math.floor(t0 * SR), b = new BP(), c = new LP();
+	for (let j = 0; j < dur * SR; j++) {
+		const tt = j / SR;
+		const env = Math.min(sm(tt, 0, 0.12), 1 - sm(tt, dur - 0.3, dur));
+		put(i0 + j, (b.f(noise(), 5200 + 800 * Math.sin(tt * 9), 0.6) * 1.6 + (noise() - c.f(noise(), 3000)) * 0.4) * (0.8 + 0.2 * Math.sin(tt * 23)) * env * amp, Math.sin(tt * 3) * 0.2, 0.15);
+	}
+};
+/* dull hit on a heavy bag; hard slap of a glove */
+const bagHit = (t0, amp = 0.2) => {
+	const i0 = Math.floor(t0 * SR), lp = new LP();
+	for (let j = 0; j < 0.25 * SR; j++) {
+		const tt = j / SR;
+		put(i0 + j, (Math.sin(2 * Math.PI * (58 + 40 * Math.exp(-tt * 30)) * tt) * Math.exp(-tt / 0.07) * 1.3 + lp.f(noise(), 380) * Math.exp(-tt / 0.03) * 1.5) * amp, -0.1, 0.1);
+	}
+};
+const gloveSlap = (t0, amp = 0.2) => {
+	const i0 = Math.floor(t0 * SR), b = new BP(), lp = new LP();
+	for (let j = 0; j < 0.18 * SR; j++) {
+		const tt = j / SR;
+		put(i0 + j, (b.f(noise(), 1500, 0.8) * 3 * Math.exp(-tt / 0.01) + lp.f(noise(), 500) * 1.4 * Math.exp(-tt / 0.035) + Math.sin(2 * Math.PI * 105 * tt) * Math.exp(-tt / 0.04)) * amp, 0.05, 0.2);
+	}
+};
 /* silence: everything already in the bed is faded to nothing in [t0, t1]; the warm return is added afterwards */
 const muteWindow = (t0, t1, fade = 0.25) => {
 	const a = Math.floor((t0 - fade) * SR), b = Math.floor(t1 * SR);
@@ -332,7 +366,8 @@ const warmReturn = (t0, dur = 2.6, gain = 0.05) => {
    }
    sfx types: click (counter tick + chime), switch (рубильник/выключатель), splash, pop, ding, whoosh, whooshUp, swoosh, stamp, clap, steps (dur s), buzz (dur),
    heartbeat (dur), alarm (dur), siren (dur), crackle (dur), ring (dur), thud, chat, sent, birds (dur),
-   crunch (хрусть), tink (дзынь), break (хрусть + дзынь), gong, smack (шлёп яйца), peep (писк птенца).
+   crunch (хрусть), tink (дзынь), break (хрусть + дзынь), gong, smack (шлёп яйца), peep (писк птенца),
+   flutter (взлёт/посадка голубей, dur), hiss (вода из крана, dur), bag (глухой удар по мешку), glove (жёсткий шлёп перчатки).
    "silence": [{"from": "140", "to": "141"}] — вся подложка (эмбиент, эффекты, вжухи) гаснет с lead (0,4 с) до начала `to` + until (0,4 с), потом тёплый возврат.
    Auto cues (src/story/auto-cues.json, written by check-plans): whooshes on location changes
    and a click on every counter change — they are added here automatically. */
@@ -442,6 +477,10 @@ for (const s of SPEC.sfx ?? []) {
 		case 'break': crunch(t, a ?? 0.3); tink(t + 0.05, (a ?? 0.3) * 0.6); break;
 		case 'gong': gong(t, a ?? 0.25); break;
 		case 'smack': smack(t, a ?? 0.45); break;
+		case 'flutter': flutter(t, d, a ?? 0.06); break;
+		case 'hiss': hiss(t, d, a ?? 0.05); break;
+		case 'bag': bagHit(t, a ?? 0.2); break;
+		case 'glove': gloveSlap(t, a ?? 0.2); break;
 		case 'peep': peep(t, a ?? 0.05); break;
 		default: console.warn('unknown sfx type', s.type);
 	}
