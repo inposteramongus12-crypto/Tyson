@@ -7,13 +7,13 @@ on:
   workflow_dispatch:
     inputs:
       composition:
-        description: 'Композиция: Long (16:9, 13–15 мин) или Short (9:16, ~59 с)'
+        description: 'Композиция: Long (16:9, 11 мин). Short (9:16) пока не собран: src/story/short-timeline.json пустой, plan откажется'
         type: choice
         options: [Long, Short]
         required: true
         default: Long
       range:
-        description: 'Диапазон: lines:001-025 (номера реплик) или frames:0-3212 (кадры). Long весь ролик: lines:001-175; Short весь ролик: lines:001-011 (номера реплик шортса)'
+        description: 'Диапазон: lines:001-025 (номера реплик) или frames:0-3212 (кадры). Long весь ролик: lines:001-161 (проверка всех диапазонов: node tools/check-plan-ranges.mjs); Short: реплик нет, пока не собран'
         required: true
         default: 'lines:001-025'
       chunk:

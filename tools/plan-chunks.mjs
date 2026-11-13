@@ -15,6 +15,8 @@ const die = (m) => {
 	process.exit(1);
 };
 if (!Number.isInteger(chunk) || chunk < 30 || chunk > 600) die('chunk must be an integer 30..600 (got ' + arg('--chunk') + ')');
+const ids = TL.lines.map((l) => parseInt(l.id, 10));
+if (!ids.length) die(`the timeline ${arg('--timeline', 'src/story/timeline.json')} has no replicas at all (for Short it is the empty scaffold: the 9:16 recut is not built yet, see tools/make-short-timeline.mjs). Run the render with composition Long`);
 const m = /^(lines|frames):(\d+)-(\d+)$/.exec(range);
 if (!m) die(`range must look like "lines:001-025" or "frames:0-3212" (got "${range}")`);
 const [, kind, a, b] = m;
@@ -26,7 +28,7 @@ if (kind === 'frames') {
 } else {
 	const num = (l) => parseInt(l.id, 10);
 	const sel = TL.lines.filter((l) => num(l) >= Number(a) && num(l) <= Number(b));
-	if (!sel.length) die(`no replicas with numbers ${a}..${b} in the timeline`);
+	if (!sel.length) die(`no replicas with numbers ${a}..${b} in the timeline (available: ${String(Math.min(...ids)).padStart(3, '0')}..${String(Math.max(...ids)).padStart(3, '0')})`);
 	start = sel[0] === TL.lines[0] ? 0 : Math.max(0, sel[0].from - LEAD);
 	const last = sel[sel.length - 1];
 	end = last === TL.lines[TL.lines.length - 1] ? TL.total - 1 : last.from + last.dur + 4;
